@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Emploi des EPA — Réseau pour l'Emploi</title>
+<style>
+@font-face{font-family:'Marianne';src:url('fonts/Marianne-Regular.woff2') format('woff2');font-weight:400;}
+@font-face{font-family:'Marianne';src:url('fonts/Marianne-Medium.woff2') format('woff2');font-weight:500;}
+@font-face{font-family:'Marianne';src:url('fonts/Marianne-Bold.woff2') format('woff2');font-weight:700;}
+:root{
+  --navy:#0D1440; --indigo:#293378; --indigo-light:#E3E5F1;
+  --jaune:#FFCC52; --jaune-dark:#E0A800;
+  --bleu:#406BDE; --bleu-light:#E2E8FB;
+  --orange:#D96B00; --orange-light:#FCEADB;
+  --rouge:#D92424; --rouge-light:#FBE3E3;
+  --success:#1B7F3B; --success-bg:#E3F4E9;
+  --warning:#D96B00; --warning-bg:#FCEADB;
+  --error:#D92424; --error-bg:#FBE3E3;
+  --sable:#F5F2EE;
+  --g50:#F8F9FA;--g100:#F1F3F5;--g200:#E5E7EB;--g300:#D1D5DB;--g400:#9CA3AF;--g500:#6B7280;--g600:#4B5563;--g700:#374151;
+  --fg1:var(--navy); --fg2:var(--g700); --fg3:var(--g500);
+  --radius-sm:4px;--radius-md:8px;--radius-lg:16px;
+  --shadow-sm:0 1px 2px rgba(17,24,39,.06),0 1px 3px rgba(17,24,39,.05);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Marianne',Arial,sans-serif;background:var(--sable);color:var(--fg1);font-size:14px;line-height:1.5;}
+h1,h2,h3,h4{font-family:'Marianne',Arial,sans-serif;font-weight:700;margin:0;color:var(--fg1);}
+
+.topbar{background:var(--navy);color:#fff;padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:60;}
+.topbar img{height:26px;}
+.topbar .title{font-size:14px;font-weight:500;}
+.topbar a.back{color:#B8BEE5;font-size:12.5px;text-decoration:none;margin-left:auto;}
+.topbar a.back:hover{color:#fff;}
+.topbar .tag{background:var(--jaune);color:var(--navy);font-weight:700;font-size:11px;padding:4px 10px;border-radius:999px;text-transform:uppercase;}
+
+.hero{background:linear-gradient(135deg,var(--indigo) 0%,var(--navy) 100%);color:#fff;padding:24px 32px;}
+.hero .eyebrow{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--jaune);font-weight:700;margin-bottom:6px;}
+.hero h1{font-size:22px;color:#fff;}
+.hero p{color:#D7DAF0;margin-top:6px;font-size:13px;max-width:760px;}
+
+/* filter bar */
+.filterbar{position:sticky;top:54px;z-index:55;background:#fff;border-bottom:1px solid var(--g200);padding:12px 32px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);}
+.filterbar .fgroup{display:flex;flex-direction:column;gap:2px;}
+.filterbar label{font-size:10px;color:var(--fg3);text-transform:uppercase;font-weight:700;letter-spacing:.02em;}
+.filterbar select{font-family:'Marianne',Arial,sans-serif;font-size:12.5px;padding:6px 8px;border:1px solid var(--g300);border-radius:var(--radius-sm);background:#fff;color:var(--fg1);min-width:130px;}
+.filterbar select:focus{outline:2px solid var(--bleu);}
+.filterbar .reset{margin-left:auto;font-size:12px;color:var(--indigo);background:var(--indigo-light);border:none;border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:500;font-family:inherit;}
+.filterbar .reset:hover{background:#D3D6EE;}
+.filterbar .count{font-size:11.5px;color:var(--fg3);}
+.sexe-toggle{display:flex;border:1px solid var(--g300);border-radius:999px;overflow:hidden;}
+.sexe-toggle button{font-family:inherit;font-size:12px;font-weight:500;padding:6px 14px;border:none;background:#fff;color:var(--fg2);cursor:pointer;}
+.sexe-toggle button.active{background:var(--indigo);color:#fff;}
+
+.wrap{max-width:1280px;margin:0 auto;padding:24px 32px 60px;}
+section{margin-bottom:36px;}
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;border-bottom:2px solid var(--g200);padding-bottom:8px;cursor:pointer;list-style:none;}
+.section-head::-webkit-details-marker{display:none;}
+.section-head::before{content:'▾';color:var(--indigo);font-size:12px;margin-right:2px;transition:transform .15s;}
+details:not([open]) > .section-head::before{transform:rotate(-90deg);}
+details:not([open]) > .section-head{margin-bottom:0;border-bottom:2px solid var(--g200);}
+.section-head h2{font-size:17px;}
+.section-head .sub{margin-left:auto;font-size:11.5px;color:var(--fg3);}
+.btn-print{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#fff;background:var(--bleu);border:none;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;}
+.btn-print:hover{background:#3159C4;}
+.toolbar-actions{display:flex;gap:8px;margin-left:auto;}
+.toolbar-actions button{font-family:inherit;font-size:11.5px;color:var(--indigo);background:var(--indigo-light);border:none;border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:500;}
+@media print{
+  .topbar,.filterbar,.btn-print,.toolbar-actions,footer{display:none !important;}
+  details{page-break-inside:avoid;}
+  .section-head::before{display:none;}
+  body{background:#fff;}
+}
+
+.note{background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:11px 15px;font-size:12px;color:var(--fg2);margin-bottom:18px;display:flex;gap:9px;}
+.note.warn{background:var(--warning-bg);border-left-color:var(--warning);}
+.note b{color:var(--navy);}
+.note .ico{flex-shrink:0;font-size:15px;}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.kpi{background:#fff;border:1px solid var(--g200);border-radius:var(--radius-lg);padding:15px 17px;box-shadow:var(--shadow-sm);}
+.kpi .label{font-size:11px;color:var(--fg3);font-weight:500;text-transform:uppercase;letter-spacing:.02em;}
+.kpi .value{font-size:26px;font-weight:700;color:var(--navy);margin-top:5px;line-height:1;}
+.kpi .value small{font-size:13px;font-weight:500;color:var(--fg3);}
+.kpi .ref{font-size:11.5px;color:var(--fg3);margin-top:7px;}
+.kpi .ref b{color:var(--fg2);}
+.kpi .delta{margin-top:6px;font-size:11.5px;font-weight:500;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;}
+.delta.up{color:var(--success);background:var(--success-bg);}
+.delta.down{color:var(--error);background:var(--error-bg);}
+
+.row{display:grid;gap:16px;}
+.row.c2{grid-template-columns:1.2fr 1fr;}
+.row.c3{grid-template-columns:repeat(3,1fr);}
+.row.c4{grid-template-columns:repeat(4,1fr);}
+.card{background:#fff;border:1px solid var(--g200);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm);}
+.card h3{font-size:13.5px;margin-bottom:3px;}
+.card .desc{font-size:11.5px;color:var(--fg3);margin-bottom:13px;}
+
+.plist .item{margin-bottom:12px;}
+.plist .item:last-child{margin-bottom:0;}
+.plist .item .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;}
+.plist .item .top .name{color:var(--fg2);font-weight:500;}
+.plist .item .top .val{font-weight:700;color:var(--navy);}
+.plist .track{height:9px;background:var(--g200);border-radius:999px;overflow:hidden;position:relative;}
+.plist .track .fill{height:100%;border-radius:999px;transition:width .3s;}
+.plist .track .ref{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--navy);}
+
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{text-align:left;font-weight:700;color:var(--fg2);font-size:11px;text-transform:uppercase;letter-spacing:.02em;padding:7px 9px;border-bottom:2px solid var(--g200);}
+td{padding:8px 9px;border-bottom:1px solid var(--g100);color:var(--fg2);}
+tr:last-child td{border-bottom:none;}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;}
+.pill.ok{background:var(--success-bg);color:var(--success);}
+.pill.warn{background:var(--warning-bg);color:var(--warning);}
+.pill.late{background:var(--error-bg);color:var(--error);}
+.pill.tension{background:var(--rouge-light);color:var(--rouge);}
+
+.hbar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.hbar-row:last-child{margin-bottom:0;}
+.hbar-row .lbl{width:170px;font-size:12px;color:var(--fg2);flex-shrink:0;}
+.hbar-row .track{flex:1;height:16px;background:var(--g100);border-radius:4px;position:relative;overflow:hidden;}
+.hbar-row .track .fill{height:100%;background:var(--indigo);border-radius:4px;}
+.hbar-row .track .refmark{position:absolute;top:-2px;bottom:-2px;width:4px;background:var(--rouge);}
+.hbar-row .val{width:42px;text-align:right;font-weight:700;font-size:12px;color:var(--navy);flex-shrink:0;}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--fg3);margin-top:10px;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.legend .sw{width:9px;height:9px;border-radius:3px;}
+
+.gauge-wrap{display:flex;align-items:center;gap:16px;}
+.gauge-num{font-size:22px;font-weight:700;color:var(--navy);}
+.gauge-num small{display:block;font-size:10.5px;font-weight:500;color:var(--fg3);}
+
+footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;border-top:1px solid var(--g200);margin-top:16px;}
+.spark{display:flex;align-items:center;gap:6px;margin-top:5px;}
+.spark svg{flex-shrink:0;}
+.spark .txt{font-size:10.5px;color:var(--fg3);}
+
+@media(max-width:1000px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .row.c2,.row.c3,.row.c4{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="assets/logo-france-travail.svg" alt="France Travail">
+  <div class="title">Réseau pour l'Emploi — Insertion professionnelle des EPA</div>
+  <span class="tag">Chiffres fictifs — maquette interactive</span>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Focus emploi · CTPE · instruction du 26 juin 2025</div>
+  <h1>Insertion professionnelle des étrangers primo-arrivants (EPA)</h1>
+  <p>Filtrez par profil et niveau territorial pour éclairer les Comités Territoriaux Pour l'Emploi. Chaque indicateur EPA est comparé à la population globale de référence. Données 100 % fictives — structure prête pour branchement sur le tableau de bord RPE.</p>
+</div>
+
+<div class="filterbar">
+  <div class="fgroup"><label>Niveau territorial</label>
+    <select id="f-territoire" onchange="renderAll()">
+      <option value="national">National</option>
+      <option value="regional">Régional — Île-de-France</option>
+      <option value="departemental">Départemental — Seine-Saint-Denis</option>
+      <option value="local">Local — bassin d'emploi</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>Tranche d'âge</label>
+    <select id="f-age" onchange="renderAll()">
+      <option value="tous">Tous âges</option>
+      <option value="moins26">Moins de 26 ans</option>
+      <option value="26-49">26 à 49 ans</option>
+      <option value="50plus">50 ans et plus</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>Référent</label>
+    <select id="f-referent" onchange="renderAll()">
+      <option value="tous">Tous référents</option>
+      <option value="ft">France Travail</option>
+      <option value="ml">Mission locale</option>
+      <option value="cap">Cap emploi</option>
+      <option value="cd">Conseil départemental</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>QPV</label>
+    <select id="f-qpv" onchange="renderAll()">
+      <option value="tous">Tous</option>
+      <option value="oui">Résident QPV</option>
+      <option value="non">Hors QPV</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>ZFRR</label>
+    <select id="f-zfrr" onchange="renderAll()">
+      <option value="tous">Toutes zones</option>
+      <option value="oui">En ZFRR</option>
+      <option value="non">Hors ZFRR</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>RSA</label>
+    <select id="f-rsa" onchange="renderAll()">
+      <option value="tous">Tous</option>
+      <option value="oui">Bénéficiaire RSA</option>
+      <option value="non">Non bénéficiaire</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>Niveau de formation</label>
+    <select id="f-formation" onchange="renderAll()">
+      <option value="tous">Tous niveaux</option>
+      <option value="infra">Infra-Bac</option>
+      <option value="bac">Bac</option>
+      <option value="sup">Bac+2 et plus</option>
+    </select>
+  </div>
+  <div class="fgroup"><label>Sexe</label>
+    <div class="sexe-toggle">
+      <button data-sexe="ensemble" class="active" onclick="setSexe('ensemble',this)">Ensemble</button>
+      <button data-sexe="femmes" onclick="setSexe('femmes',this)">Femmes</button>
+      <button data-sexe="hommes" onclick="setSexe('hommes',this)">Hommes</button>
+    </div>
+  </div>
+  <button class="reset" onclick="resetFilters()">↺ Réinitialiser</button>
+  <div class="toolbar-actions">
+    <button onclick="toggleAll(true)">Tout déplier</button>
+    <button onclick="toggleAll(false)">Tout replier</button>
+  </div>
+  <button class="btn-print" onclick="exportPdf()">⭳ Télécharger le rapport PDF</button>
+</div>
+
+<div class="wrap">
+
+<div class="note"><span class="ico">💡</span><div><b>Note de lecture —</b> Les valeurs <b>EPA</b> sont comparées à la <b>population globale</b> de référence et à leur <b>tendance sur 6 mois</b> (mini-courbe : vert = amélioration, rouge = dégradation). Les filtres recalculent instantanément la page à partir d'un modèle de coefficients fictifs — à brancher sur les données réelles du tableau de bord RPE.</div></div>
+
+<!-- KPI -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Indicateurs clés</h2><span class="sub" id="filter-summary">Aucun filtre actif</span></summary>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Inscrits EPA</div>
+      <div class="value" id="kpi-inscrits">—</div>
+      <div class="delta up" id="kpi-inscrits-delta">—</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux d'accès à l'emploi (6 mois)</div>
+      <div class="value" id="kpi-tae">—<small>%</small></div>
+      <div class="ref">Population globale : <b id="kpi-tae-ref">—</b> %</div>
+      <div class="spark" id="spark-tae"></div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux de présence en emploi (6 mois)</div>
+      <div class="value" id="kpi-presence">—<small>%</small></div>
+      <div class="ref">Population globale : <b id="kpi-presence-ref">—</b> %</div>
+      <div class="spark" id="spark-presence"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <h3>Évolution 6 mois — inscrits, TAE, taux de présence</h3>
+    <div class="desc">Barres = inscrits EPA (éch. gauche) · Lignes = taux en % (éch. droite)</div>
+    <div id="combo-chart"></div>
+    <div class="legend"><span><span class="sw" style="background:var(--indigo-light);"></span>Inscrits EPA</span><span><span class="sw" style="background:var(--bleu);"></span>TAE 6 mois</span><span><span class="sw" style="background:#7E58A0;"></span>Taux de présence 6 mois</span></div>
+  </div>
+</details>
+
+<details class="sec" open>
+  <summary class="section-head"><h2>Immersion, mobilisation et entrées en formation</h2><span class="sub">Détail des 4 derniers indicateurs</span></summary>
+  <div class="row c4">
+    <div class="card">
+      <h3>Taux d'accès à l'immersion (6 mois)</h3>
+      <div class="gauge-wrap">
+        <svg width="76" height="76" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
+          <circle id="gauge-immersion" cx="50" cy="50" r="42" fill="none" stroke="#406BDE" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="gauge-num"><span id="kpi-immersion">—</span> %<small>Réf. globale : <b id="kpi-immersion-ref">—</b> %</small><div class="spark" id="spark-immersion"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Taux de mobilisation sur événements</h3>
+      <div class="gauge-wrap">
+        <svg width="76" height="76" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
+          <circle id="gauge-evt" cx="50" cy="50" r="42" fill="none" stroke="#7E58A0" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="gauge-num"><span id="kpi-evt">—</span> %<small>Réf. globale : <b id="kpi-evt-ref">—</b> %</small><div class="spark" id="spark-evt"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Taux d'accès à la formation (6 mois)</h3>
+      <div class="gauge-wrap">
+        <svg width="76" height="76" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
+          <circle id="gauge-formation" cx="50" cy="50" r="42" fill="none" stroke="#293378" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="gauge-num"><span id="kpi-formation">—</span> %<small>Réf. globale : <b id="kpi-formation-ref">—</b> %</small><div class="spark" id="spark-formation"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Entrées en formation (période)</h3>
+      <div class="plist">
+        <div class="item"><div class="top"><span class="name">Total entrées</span><span class="val" id="form-total">—</span></div></div>
+        <div class="item"><div class="top"><span class="name">dont formations linguistiques</span><span class="val" id="form-ling">—</span></div></div>
+        <div class="item"><div class="top"><span class="name">dont VAE</span><span class="val" id="form-vae">—</span></div></div>
+        <div class="item"><div class="top"><span class="name">dont métiers en tension</span><span class="val" id="form-tension">—</span></div></div>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- CARACTERISTIQUES -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Caractéristiques de la population EPA</h2><span class="sub">Répartition, période courante</span></summary>
+  <div class="row c2">
+    <div class="card">
+      <h3>Par sexe, âge et niveau de formation</h3>
+      <div class="plist" id="carac-block"></div>
+    </div>
+    <div class="card">
+      <h3>Situations particulières</h3>
+      <div class="plist">
+        <div class="item"><div class="top"><span class="name">Bénéficiaires du RSA</span><span class="val">31 %</span></div><div class="track"><div class="fill" style="width:31%;background:var(--bleu);"></div></div></div>
+        <div class="item"><div class="top"><span class="name">Résidents QPV</span><span class="val">24 %</span></div><div class="track"><div class="fill" style="width:24%;background:var(--indigo);"></div></div></div>
+        <div class="item"><div class="top"><span class="name">Résidents ZFRR</span><span class="val">9 %</span></div><div class="track"><div class="fill" style="width:9%;background:var(--jaune-dark);"></div></div></div>
+        <div class="item"><div class="top"><span class="name">Bénéficiaire de l'Obligation d'Emploi des Travailleurs Handicapés</span><span class="val">6 %</span></div><div class="track"><div class="fill" style="width:6%;background:var(--orange);"></div></div></div>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- FREINS -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Freins à l'emploi déclarés</h2><span class="sub">Part des inscrits concernés · repère rouge = population globale</span></summary>
+  <div class="card">
+    <div class="hbar-row"><div class="lbl">Maîtrise des savoirs de base</div><div class="track"><div class="fill" style="width:42%;"></div><div class="refmark" style="left:22%;"></div></div><div class="val">42 %</div></div>
+    <div class="hbar-row"><div class="lbl">Mobilité</div><div class="track"><div class="fill" style="width:38%;"></div><div class="refmark" style="left:29%;"></div></div><div class="val">38 %</div></div>
+    <div class="hbar-row"><div class="lbl">Difficultés administratives</div><div class="track"><div class="fill" style="width:33%;"></div><div class="refmark" style="left:8%;"></div></div><div class="val">33 %</div></div>
+    <div class="hbar-row"><div class="lbl">Précarité financière</div><div class="track"><div class="fill" style="width:30%;"></div><div class="refmark" style="left:21%;"></div></div><div class="val">30 %</div></div>
+    <div class="hbar-row"><div class="lbl">Logement</div><div class="track"><div class="fill" style="width:27%;"></div><div class="refmark" style="left:14%;"></div></div><div class="val">27 %</div></div>
+    <div class="hbar-row"><div class="lbl">Garde d'enfant / famille</div><div class="track"><div class="fill" style="width:22%;"></div><div class="refmark" style="left:17%;"></div></div><div class="val">22 %</div></div>
+    <div class="hbar-row"><div class="lbl">Numérique</div><div class="track"><div class="fill" style="width:19%;"></div><div class="refmark" style="left:12%;"></div></div><div class="val">19 %</div></div>
+    <div class="hbar-row"><div class="lbl">Santé</div><div class="track"><div class="fill" style="width:14%;"></div><div class="refmark" style="left:13%;"></div></div><div class="val">14 %</div></div>
+    <div class="legend"><span><span class="sw" style="background:var(--indigo);"></span>EPA</span><span><span class="sw" style="background:var(--rouge);"></span>Repère population globale</span></div>
+  </div>
+</details>
+
+<!-- METIERS -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Métiers recherchés</h2><span class="sub">Top 8 · part en tension de recrutement</span></summary>
+  <div class="card">
+    <table>
+      <thead><tr><th>Métier recherché (ROME)</th><th style="text-align:right;">EPA recherchant ce métier</th><th style="text-align:right;">Part en tension</th></tr></thead>
+      <tbody>
+        <tr><td>Agents d'entretien / propreté</td><td style="text-align:right;">14 %</td><td style="text-align:right;"><span class="pill tension">78 %</span></td></tr>
+        <tr><td>Aide à domicile / services à la personne</td><td style="text-align:right;">12 %</td><td style="text-align:right;"><span class="pill tension">74 %</span></td></tr>
+        <tr><td>Ouvriers du bâtiment / BTP</td><td style="text-align:right;">11 %</td><td style="text-align:right;"><span class="pill tension">81 %</span></td></tr>
+        <tr><td>Hôtellerie-restauration</td><td style="text-align:right;">10 %</td><td style="text-align:right;"><span class="pill tension">69 %</span></td></tr>
+        <tr><td>Manutention / logistique</td><td style="text-align:right;">9 %</td><td style="text-align:right;"><span class="pill warn">54 %</span></td></tr>
+        <tr><td>Commerce / vente</td><td style="text-align:right;">8 %</td><td style="text-align:right;"><span class="pill warn">38 %</span></td></tr>
+        <tr><td>Industrie / production</td><td style="text-align:right;">7 %</td><td style="text-align:right;"><span class="pill tension">61 %</span></td></tr>
+        <tr><td>Transport / conduite</td><td style="text-align:right;">6 %</td><td style="text-align:right;"><span class="pill tension">66 %</span></td></tr>
+      </tbody>
+    </table>
+    <div class="legend" style="margin-top:10px;"><span><span class="sw" style="background:var(--rouge-light);"></span>Rouge = métier en forte tension (≥ 60 %)</span></div>
+  </div>
+</details>
+
+<!-- FORMATIONS -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Formations — accès à l'emploi par type</h2><span class="sub">Taux d'accès et de présence en emploi à 6 mois après sortie de formation</span></summary>
+  <div class="card">
+    <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--fg2);margin-bottom:12px;cursor:pointer;">
+      <input type="checkbox" id="f-formation-directe" onchange="filterFormationTable()"> Afficher uniquement les formations à visée emploi direct (AIF, POEI, AFC)
+    </label>
+    <table>
+      <thead><tr><th rowspan="2" style="vertical-align:bottom;">Type de formation</th><th rowspan="2" style="text-align:right;vertical-align:bottom;">Entrées EPA</th><th colspan="2" style="text-align:center;">TAE 6 mois</th><th colspan="2" style="text-align:center;">Taux de présence 6 mois</th></tr>
+      <tr><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th></tr></thead>
+      <tbody>
+        <tr data-direct="oui"><td>AIF (Aide individuelle à la formation)</td><td style="text-align:right;">1 840</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">60 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">52 %</td></tr>
+        <tr data-direct="non"><td>CPF (Compte personnel de formation)</td><td style="text-align:right;">960</td><td style="text-align:right;">52 %</td><td style="text-align:right;color:var(--fg3);">58 %</td><td style="text-align:right;">44 %</td><td style="text-align:right;color:var(--fg3);">50 %</td></tr>
+        <tr data-direct="non"><td>Conseil régional</td><td style="text-align:right;">2 210</td><td style="text-align:right;">55 %</td><td style="text-align:right;color:var(--fg3);">59 %</td><td style="text-align:right;">47 %</td><td style="text-align:right;color:var(--fg3);">51 %</td></tr>
+        <tr data-direct="oui"><td>POEI (Préparation opérationnelle à l'emploi)</td><td style="text-align:right;">740</td><td style="text-align:right;"><span class="pill ok">71 %</span></td><td style="text-align:right;color:var(--fg3);">75 %</td><td style="text-align:right;">64 %</td><td style="text-align:right;color:var(--fg3);">68 %</td></tr>
+        <tr data-direct="oui"><td>AFC (Action de formation conventionnée)</td><td style="text-align:right;">1 120</td><td style="text-align:right;">53 %</td><td style="text-align:right;color:var(--fg3);">57 %</td><td style="text-align:right;">45 %</td><td style="text-align:right;color:var(--fg3);">49 %</td></tr>
+        <tr style="background:var(--g50);font-weight:700;"><td>Ensemble EPA</td><td style="text-align:right;">6 870</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">61 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">55 %</td></tr>
+      </tbody>
+    </table>
+    <div class="legend"><span><span class="sw" style="background:var(--success-bg);"></span>POEI : meilleur convertisseur vers l'emploi (formation en situation réelle sur métier en tension)</span></div>
+    <div class="note" style="margin:14px 0 0;"><span class="ico">📐</span><div>
+      <b>Poids des EPA dans les entrées en formation :</b> 16,8 % (6 870 / 41 000 entrées tous publics)<br>
+      <b>Poids des EPA dans les inscrits</b> : 15,1 % — <b style="color:var(--success);">écart +1,7 pt : EPA sur-représentés</b> dans les entrées en formation par rapport à leur poids démographique.
+    </div></div>
+  </div>
+</details>
+
+<!-- CTPE -->
+<details class="sec" open>
+  <summary class="section-head"><h2>Fiches action EPA enregistrées par les CTPE</h2><span class="sub">Cumul et répartition territoriale</span></summary>
+  <div class="card">
+    <h3>Compteur par niveau territorial</h3>
+    <table>
+      <tr><td>National</td><td style="text-align:right;font-weight:700;">4</td></tr>
+      <tr><td>Régional</td><td style="text-align:right;font-weight:700;">28</td></tr>
+      <tr><td>Départemental</td><td style="text-align:right;font-weight:700;">76</td></tr>
+      <tr><td>Local</td><td style="text-align:right;font-weight:700;">56</td></tr>
+    </table>
+  </div>
+</details>
+
+</div>
+
+<footer>Données fictives — structure de suivi prête pour branchement sur le tableau de bord RPE, SI OFII et remontées CTPE. Direction de la Performance — France Travail.</footer>
+
+<script>
+// Modèle de coefficients fictifs — à remplacer par un appel aux données réelles
+const BASE = {
+  inscrits: 158292, tae: 36.7, taeRef: 33.2, presence: 49.0, presenceRef: 55.0,
+  formation: 22.0, formationRef: 27.0, immersion: 14.0, immersionRef: 18.0,
+  evt: 31.0, evtRef: 35.0, formTotal: 6870, formLing: 2140, formVae: 340, formTension: 3980,
+  hist: {
+    inscrits:  [150813,153116,155957,156402,157340,158292],
+    tae:       [38.4,38.0,37.6,37.2,36.9,36.7],
+    presence:  [50.8,50.3,49.9,49.5,49.2,49.0],
+    formation: [20.1,20.6,21.0,21.4,21.8,22.0],
+    immersion: [12.4,12.8,13.1,13.5,13.8,14.0],
+    evt:       [28.9,29.4,29.8,30.2,30.6,31.0]
+  }
+};
+const COEF = {
+  territoire: { national:{n:1,tae:0,pres:0}, regional:{n:.29,tae:2.8,pres:1.5}, departemental:{n:.07,tae:-2.2,pres:-1.8}, local:{n:.015,tae:1.1,pres:.6} },
+  age:        { tous:{n:1,tae:0,pres:0}, moins26:{n:.24,tae:-3.5,pres:-2.9}, "26-49":{n:.58,tae:2.1,pres:1.7}, "50plus":{n:.18,tae:-5.8,pres:-4.6} },
+  referent:   { tous:{n:1,tae:0,pres:0}, ft:{n:.71,tae:1.4,pres:1.0}, ml:{n:.14,tae:-4.2,pres:-3.5}, cap:{n:.03,tae:-6.1,pres:-5.2}, cd:{n:.12,tae:-2.8,pres:-2.3} },
+  qpv:        { tous:{n:1,tae:0,pres:0}, oui:{n:.24,tae:-3.9,pres:-3.2}, non:{n:.76,tae:1.2,pres:1.0} },
+  zfrr:       { tous:{n:1,tae:0,pres:0}, oui:{n:.09,tae:-1.8,pres:-1.4}, non:{n:.91,tae:.2,pres:.1} },
+  rsa:        { tous:{n:1,tae:0,pres:0}, oui:{n:.31,tae:-6.4,pres:-5.5}, non:{n:.69,tae:2.9,pres:2.4} },
+  formation:  { tous:{n:1,tae:0,pres:0}, infra:{n:.52,tae:-3.1,pres:-2.6}, bac:{n:.27,tae:.8,pres:.6}, sup:{n:.21,tae:5.4,pres:4.5} },
+  sexe:       { ensemble:{n:1,tae:0,pres:0}, femmes:{n:.489,tae:-11.1,pres:-9.2}, hommes:{n:.511,tae:8.2,pres:6.8} }
+};
+let currentSexe = 'ensemble';
+
+function clamp(v){ return Math.max(0, Math.min(100, v)); }
+
+// Sparkline 6 mois : trace la série historique + delta sur la période
+function sparkline(elId, serie){
+  const w=64,h=20,pad=2;
+  const min=Math.min(...serie), max=Math.max(...serie);
+  const range = (max-min)||1;
+  const pts = serie.map((v,i)=>{
+    const x = pad + i*(w-2*pad)/(serie.length-1);
+    const y = h-pad - (v-min)/range*(h-2*pad);
+    return x.toFixed(1)+','+y.toFixed(1);
+  }).join(' ');
+  const delta = (serie[serie.length-1]-serie[0]);
+  const color = delta>=0 ? '#1B7F3B' : '#D92424';
+  const svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const txt = `<span class="txt">${delta>=0?'+':''}${delta.toFixed(1)} pt / 6 mois</span>`;
+  document.getElementById(elId).innerHTML = svg + txt;
+}
+
+function activeCoefs(){
+  return [
+    COEF.territoire[document.getElementById('f-territoire').value],
+    COEF.age[document.getElementById('f-age').value],
+    COEF.referent[document.getElementById('f-referent').value],
+    COEF.qpv[document.getElementById('f-qpv').value],
+    COEF.zfrr[document.getElementById('f-zfrr').value],
+    COEF.rsa[document.getElementById('f-rsa').value],
+    COEF.formation[document.getElementById('f-formation').value],
+    COEF.sexe[currentSexe]
+  ];
+}
+
+function setGauge(id, pct){
+  const c = document.getElementById(id);
+  const circ = 264;
+  c.setAttribute('stroke-dasharray', (circ*pct/100).toFixed(0) + ' ' + circ);
+}
+
+function activeFilterLabels(){
+  const labels = [];
+  const map = [['f-territoire','Territoire'],['f-age','Âge'],['f-referent','Référent'],['f-qpv','QPV'],['f-zfrr','ZFRR'],['f-rsa','RSA'],['f-formation','Formation']];
+  map.forEach(([id,name])=>{
+    const el = document.getElementById(id);
+    if(el.value!=='tous' && el.value!=='national'){ labels.push(name+' : '+el.options[el.selectedIndex].text); }
+  });
+  if(currentSexe!=='ensemble') labels.push('Sexe : '+(currentSexe==='femmes'?'Femmes':'Hommes'));
+  return labels;
+}
+
+function renderAll(){
+  const coefs = activeCoefs();
+  const nMult = coefs.reduce((a,c)=>a*c.n, 1);
+  const taeSum = coefs.reduce((a,c)=>a+c.tae, 0);
+  const presSum = coefs.reduce((a,c)=>a+c.pres, 0);
+
+  const inscrits = Math.round(BASE.inscrits * nMult);
+  const tae = clamp(BASE.tae + taeSum);
+  const presence = clamp(BASE.presence + presSum);
+  const formation = clamp(BASE.formation + presSum*0.5);
+  const immersion = clamp(BASE.immersion + presSum*0.4);
+  const evt = clamp(BASE.evt + presSum*0.3);
+
+  document.getElementById('kpi-inscrits').textContent = inscrits.toLocaleString('fr-FR');
+  document.getElementById('kpi-inscrits-delta').textContent = (nMult<1? 'Filtré à '+(nMult*100).toFixed(0)+'% de la base nationale' : 'Base nationale complète');
+  document.getElementById('kpi-inscrits-delta').className = 'delta ' + (nMult<1?'down':'up');
+
+  document.getElementById('kpi-tae').firstChild.textContent = tae.toFixed(1);
+  document.getElementById('kpi-tae-ref').textContent = BASE.taeRef.toFixed(1);
+  document.getElementById('kpi-presence').firstChild.textContent = presence.toFixed(1);
+  document.getElementById('kpi-presence-ref').textContent = BASE.presenceRef.toFixed(1);
+  document.getElementById('kpi-formation').textContent = formation.toFixed(1);
+  document.getElementById('kpi-formation-ref').textContent = BASE.formationRef.toFixed(1);
+  document.getElementById('kpi-immersion').textContent = immersion.toFixed(1);
+  document.getElementById('kpi-immersion-ref').textContent = BASE.immersionRef.toFixed(1);
+  document.getElementById('kpi-evt').textContent = evt.toFixed(1);
+  document.getElementById('kpi-evt-ref').textContent = BASE.evtRef.toFixed(1);
+  setGauge('gauge-immersion', immersion);
+  setGauge('gauge-formation', formation);
+  renderCombo();
+  setGauge('gauge-evt', evt);
+  sparkline('spark-tae', BASE.hist.tae);
+  sparkline('spark-presence', BASE.hist.presence);
+  sparkline('spark-formation', BASE.hist.formation);
+  sparkline('spark-immersion', BASE.hist.immersion);
+  sparkline('spark-evt', BASE.hist.evt);
+
+  document.getElementById('form-total').textContent = Math.round(BASE.formTotal*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-ling').textContent = Math.round(BASE.formLing*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-vae').textContent = Math.round(BASE.formVae*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-tension').textContent = Math.round(BASE.formTension*nMult).toLocaleString('fr-FR');
+
+  const labels = activeFilterLabels();
+  document.getElementById('filter-summary').textContent = labels.length ? labels.join(' · ') : 'Aucun filtre actif — vue nationale, ensemble';
+
+  // caractéristiques (statique, illustratif)
+  document.getElementById('carac-block').innerHTML = `
+    <div class="item"><div class="top"><span class="name">Femmes</span><span class="val">48,9 %</span></div><div class="track"><div class="fill" style="width:48.9%;background:var(--bleu);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">Moins de 26 ans</span><span class="val">24 %</span></div><div class="track"><div class="fill" style="width:24%;background:var(--indigo);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">26-49 ans</span><span class="val">58 %</span></div><div class="track"><div class="fill" style="width:58%;background:var(--indigo);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">50 ans et plus</span><span class="val">18 %</span></div><div class="track"><div class="fill" style="width:18%;background:var(--indigo);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">Niveau infra-Bac</span><span class="val">52 %</span></div><div class="track"><div class="fill" style="width:52%;background:var(--orange);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">Niveau Bac</span><span class="val">27 %</span></div><div class="track"><div class="fill" style="width:27%;background:var(--orange);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">Niveau Bac+2 et plus</span><span class="val">21 %</span></div><div class="track"><div class="fill" style="width:21%;background:var(--orange);"></div></div></div>`;
+}
+
+function setSexe(s, btn){
+  currentSexe = s;
+  document.querySelectorAll('.sexe-toggle button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function resetFilters(){
+  ['f-territoire','f-age','f-referent','f-qpv','f-zfrr','f-rsa','f-formation'].forEach(id=>{
+    document.getElementById(id).selectedIndex = 0;
+  });
+function filterFormationTable(){
+  const onlyDirect = document.getElementById('f-formation-directe').checked;
+  document.querySelectorAll('tr[data-direct]').forEach(tr=>{
+    tr.style.display = (!onlyDirect || tr.dataset.direct==='oui') ? '' : 'none';
+  });
+}
+
+function renderCombo(){
+  const inscrits = BASE.hist.inscrits, tae = BASE.hist.tae, pres = BASE.hist.presence;
+  const mois = ['Janv.','Févr.','Mars','Avril','Mai','Juin'];
+  const w=560,h=170,padL=38,padR=30,padB=22,padT=8;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const nMax = Math.max(...inscrits), nMin = Math.min(...inscrits);
+  const tMax = 60, tMin = 20; // échelle taux fixe pour lecture stable
+  const bw = plotW/inscrits.length*0.5;
+  let bars='', lineTae=[], linePres=[];
+  inscrits.forEach((v,i)=>{
+    const x = padL + (i+0.5)*plotW/inscrits.length;
+    const bh = (v-nMin)/((nMax-nMin)||1)*(plotH*0.85);
+    bars += `<rect x="${(x-bw/2).toFixed(1)}" y="${(padT+plotH-bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="#E3E5F1" rx="2"/>`;
+    const yTae = padT+plotH - (tae[i]-tMin)/(tMax-tMin)*plotH;
+    const yPres = padT+plotH - (pres[i]-tMin)/(tMax-tMin)*plotH;
+    lineTae.push(x.toFixed(1)+','+yTae.toFixed(1));
+    linePres.push(x.toFixed(1)+','+yPres.toFixed(1));
+  });
+  const labels = mois.map((m,i)=>{
+    const x = padL + (i+0.5)*plotW/inscrits.length;
+    return `<text x="${x.toFixed(1)}" y="${h-6}" font-size="9" fill="#6B7280" text-anchor="middle">${m}</text>`;
+  }).join('');
+  const svg = `<svg width="100%" viewBox="0 0 ${w} ${h}" style="max-width:${w}px;">
+    ${bars}
+    <polyline points="${lineTae.join(' ')}" fill="none" stroke="#406BDE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="${linePres.join(' ')}" fill="none" stroke="#7E58A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${labels}
+  </svg>`;
+  document.getElementById('combo-chart').innerHTML = svg;
+}
+
+function toggleAll(open){
+  document.querySelectorAll('details.sec').forEach(d=>{ d.open = open; });
+}
+
+function exportPdf(){
+  toggleAll(true);
+  const filters = activeFilterLabels();
+  const bar = document.createElement('div');
+  bar.id = 'print-header';
+  bar.style.cssText = 'display:none;';
+  bar.innerHTML = `<div style="padding:16px 0 8px;border-bottom:2px solid #0D1440;margin-bottom:16px;">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#293378;font-weight:700;">Rapport — Insertion professionnelle des EPA</div>
+    <div style="font-size:10px;color:#6B7280;margin-top:4px;">Généré le ${new Date().toLocaleDateString('fr-FR')} · Filtres actifs : ${filters.length?filters.join(' · '):'aucun (vue nationale, ensemble)'}</div>
+  </div>`;
+  document.querySelector('.wrap').prepend(bar);
+  const style = document.createElement('style');
+  style.id = 'print-only-style';
+  style.textContent = '@media print{#print-header{display:block !important;}}';
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(()=>{ bar.remove(); style.remove(); }, 500);
+}
+
+renderAll();
+</script>
+</body>
+</html>
