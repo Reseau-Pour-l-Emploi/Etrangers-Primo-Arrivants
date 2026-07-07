@@ -549,6 +549,9 @@ function resetFilters(){
   ['f-territoire','f-age','f-referent','f-qpv','f-zfrr','f-rsa','f-formation'].forEach(id=>{
     document.getElementById(id).selectedIndex = 0;
   });
+  setSexe('ensemble', document.querySelector('.sexe-toggle button[data-sexe="ensemble"]'));
+}
+
 function filterFormationTable(){
   const onlyDirect = document.getElementById('f-formation-directe').checked;
   document.querySelectorAll('tr[data-direct]').forEach(tr=>{
