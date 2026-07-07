@@ -134,14 +134,20 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
 .spark{display:flex;align-items:center;gap:6px;margin-top:5px;}
 .spark svg{flex-shrink:0;}
 .spark .txt{font-size:10.5px;color:var(--fg3);}
-.periode{font-size:10px;color:var(--fg3);margin-top:3px;font-style:italic;}
+.periode{font-size:10px;color:var(--fg3);margin-top:5px;font-style:italic;text-align:center;}
 .info{cursor:help;color:var(--fg3);font-size:11px;font-style:normal;}
-.kpi-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
-.kpi-a1{text-align:right;}
-.kpi-a1 .a1-label{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.02em;font-weight:500;}
-.kpi-a1 .a1-delta{font-size:11px;font-weight:700;margin-top:2px;}
+.kpi .label{text-align:center;}
+.kpi-compare{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-top:6px;}
+.kpi-col{flex:1;}
+.kpi-col-a1{text-align:right;}
+.kpi-a1 .a1-delta,.kpi-col .a1-delta{font-size:11px;font-weight:700;margin-top:2px;}
 .a1-delta.up{color:var(--success);}
 .a1-delta.down{color:var(--error);}
+.kpi-col .periode{text-align:inherit;margin:5px 0 0;}
+.kpi-col .ref{margin-top:4px;font-size:11px;text-align:inherit;}
+.kpi-col .coltag{font-size:9.5px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:.04em;}
+.kpi-a1-delta-row{margin-top:8px;border-top:1px dashed var(--g200);padding-top:6px;}
+.kpi .ref{text-align:center;}
 
 @media(max-width:1000px){
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
@@ -244,113 +250,164 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
   <div class="kpi-grid">
     <div class="kpi">
       <div class="label">Nombre d'inscrits EPA</div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-inscrits">-</div>
-        <div class="kpi-a1">
-          <div class="a1-label">Juin 2025</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-inscrits">-</div>
+          <div class="periode">Juin 2026</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-inscrits-a1-val">-</div>
-          <div class="a1-delta" id="kpi-inscrits-a1-delta">-</div>
+          <div class="periode">Juin 2025</div>
         </div>
       </div>
-      <div class="periode">Juin 2026</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-inscrits-a1-delta" data-a1period="Juin 2025">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux d'accès à l'emploi (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits ayant accédé à l'emploi dans les 6 mois suivant leur inscription.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-tae">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Déc. 2024</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-tae">-<small>%</small></div>
+          <div class="periode">Cumul janv.-déc. 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-tae-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-tae-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-tae-a1-delta">-</div>
+          <div class="periode">Cumul janv.-déc. 2024</div>
+          <div class="ref">Pop. globale : <b id="kpi-tae-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-tae-ref">-</b> %</div>
-      <div class="periode">Cumul janv.-déc. 2025</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-tae-a1-delta" data-a1period="Déc. 2024">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux de présence en emploi (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits toujours en emploi 6 mois après leur inscription.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-presence">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Déc. 2024</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-presence">-<small>%</small></div>
+          <div class="periode">Cumul janv.-déc. 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-presence-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-presence-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-presence-a1-delta">-</div>
+          <div class="periode">Cumul janv.-déc. 2024</div>
+          <div class="ref">Pop. globale : <b id="kpi-presence-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-presence-ref">-</b> %</div>
-      <div class="periode">Cumul janv.-déc. 2025</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-presence-a1-delta" data-a1period="Déc. 2024">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux d'accès à la formation (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant bénéficié d'au moins une formation au cours des 6 derniers mois.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-formation">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Juin 2025</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-formation">-<small>%</small></div>
+          <div class="periode">Juin 2026</div>
+          <div class="ref">Pop. globale : <b id="kpi-formation-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-formation-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-formation-a1-delta">-</div>
+          <div class="periode">Juin 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-formation-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-formation-ref">-</b> %</div>
-      <div class="periode">Juin 2026</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-formation-a1-delta" data-a1period="Juin 2025">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux d'accès à l'immersion (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant réalisé au moins une immersion au cours des 6 derniers mois.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-immersion">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Juin 2025</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-immersion">-<small>%</small></div>
+          <div class="periode">Juin 2026</div>
+          <div class="ref">Pop. globale : <b id="kpi-immersion-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-immersion-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-immersion-a1-delta">-</div>
+          <div class="periode">Juin 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-immersion-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-immersion-ref">-</b> %</div>
-      <div class="periode">Juin 2026</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-immersion-a1-delta" data-a1period="Juin 2025">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux de mobilisation sur événements <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant participé à au moins un événement au cours des 6 derniers mois.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-evt">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Juin 2025</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-evt">-<small>%</small></div>
+          <div class="periode">Juin 2026</div>
+          <div class="ref">Pop. globale : <b id="kpi-evt-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-evt-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-evt-a1-delta">-</div>
+          <div class="periode">Juin 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-evt-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-evt-ref">-</b> %</div>
-      <div class="periode">Juin 2026</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-evt-a1-delta" data-a1period="Juin 2025">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux d'accès à l'emploi 6 mois après formation <span class="info" title="Proportion de sortants de formation ayant accédé à l'emploi dans les 6 mois suivant la fin de leur formation.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-formtae">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Déc. 2024</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-formtae">-<small>%</small></div>
+          <div class="periode">Cumul janv.-déc. 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-formtae-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-formtae-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-formtae-a1-delta">-</div>
+          <div class="periode">Cumul janv.-déc. 2024</div>
+          <div class="ref">Pop. globale : <b id="kpi-formtae-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-formtae-ref">-</b> %</div>
-      <div class="periode">Cumul janv.-déc. 2025</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-formtae-a1-delta" data-a1period="Déc. 2024">-</div></div>
     </div>
     <div class="kpi">
       <div class="label">Taux de présence en emploi 6 mois après formation <span class="info" title="Proportion de sortants de formation toujours en emploi 6 mois après la fin de leur formation.">ⓘ</span></div>
-      <div class="kpi-row">
-        <div class="value" id="kpi-formpres">-<small>%</small></div>
-        <div class="kpi-a1">
-          <div class="a1-label">Déc. 2024</div>
+      <div class="kpi-compare">
+        <div class="kpi-col">
+          <div class="coltag">A</div>
+          <div class="value" id="kpi-formpres">-<small>%</small></div>
+          <div class="periode">Cumul janv.-déc. 2025</div>
+          <div class="ref">Pop. globale : <b id="kpi-formpres-ref">-</b> %</div>
+        </div>
+        <div class="kpi-col kpi-col-a1">
+          <div class="coltag">A-1</div>
           <div class="value" id="kpi-formpres-a1-val">-<small>%</small></div>
-          <div class="a1-delta" id="kpi-formpres-a1-delta">-</div>
+          <div class="periode">Cumul janv.-déc. 2024</div>
+          <div class="ref">Pop. globale : <b id="kpi-formpres-a1-ref">-</b> %</div>
         </div>
       </div>
-      <div class="ref">Population globale : <b id="kpi-formpres-ref">-</b> %</div>
-      <div class="periode">Cumul janv.-déc. 2025</div>
+      <div class="kpi-a1-delta-row"><div class="a1-delta" id="kpi-formpres-a1-delta" data-a1period="Déc. 2024">-</div></div>
     </div>
   </div>
-  <div class="card" style="margin-top:14px;">
-    <h3>Évolution 12 mois : Nombre d'inscrits, TAE/TPE à 6 mois</h3>
-    <div class="desc">Barres = Nombre d'inscrits EPA (éch. gauche) · Lignes = Accès/Présence en emploi (éch. droite)</div>
-    <div id="combo-chart"></div>
-    <div class="legend"><span><span class="sw" style="background:var(--indigo-light);"></span>Nombre d'inscrits EPA</span><span><span class="sw" style="background:var(--bleu);"></span>Taux d'accès à l'emploi (6 mois)</span><span><span class="sw" style="background:#7E58A0;"></span>Taux de présence en emploi (6 mois)</span></div>
+  <div class="row c2" style="margin-top:14px;">
+    <div class="card">
+      <h3>Évolution 12 mois : Nombre d'inscrits, TAE/TPE à 6 mois</h3>
+      <div class="desc">Barres = Nombre d'inscrits EPA (éch. gauche) · Lignes = Accès/Présence en emploi (éch. droite)</div>
+      <div id="combo-chart"></div>
+      <div class="legend"><span><span class="sw" style="background:var(--indigo-light);"></span>Nombre d'inscrits EPA</span><span><span class="sw" style="background:var(--bleu);"></span>Taux d'accès à l'emploi (6 mois)</span><span><span class="sw" style="background:#7E58A0;"></span>Taux de présence en emploi (6 mois)</span></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+        <h3>Poids des EPA dans la demande d'emploi</h3>
+        <button class="btn-print" style="margin-left:auto;padding:5px 12px;font-size:11px;" onclick="toggleMapView()" id="btn-map-view">Vue département</button>
+      </div>
+      <div class="desc" id="map-desc">Part des EPA (CIR &lt; 5 ans) parmi les DEFM, par région · juin 2026</div>
+      <div id="france-map"></div>
+      <div class="legend" id="map-legend"></div>
+      <div class="note" style="margin-top:10px;"><span class="ico">💡</span><div>Couleur relative à la moyenne nationale (15,1 %) : bleu = en-dessous, orange = au-dessus. Utile pour cibler les CTPE où les EPA sont sur-représentés dans la demande d'emploi.</div></div>
+    </div>
   </div>
 </details>
 
@@ -489,6 +546,7 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
       <tr><td>Départemental</td><td style="text-align:right;">64</td><td style="text-align:right;font-weight:700;">76</td></tr>
       <tr><td>Local</td><td style="text-align:right;">41</td><td style="text-align:right;font-weight:700;">56</td></tr>
     </table>
+    <div class="note" style="margin-top:14px;"><span class="ico">📋</span><div>Sont comptabilisées les fiches actions traitant spécifiquement des étrangers primo-arrivants (EPA).</div></div>
   </div>
 </details>
 
@@ -506,7 +564,9 @@ const BASE = {
   a1: {
     inscrits: 150813, tae: 35.9, presence: 48.1, formation: 20.6, immersion: 12.8, evt: 29.4,
     formTae: 54.2, formPres: 46.5,
-    formTotal: 6240, formLing: 1950, formVae: 305, formTension: 3610
+    formTotal: 6240, formLing: 1950, formVae: 305, formTension: 3610,
+    taeRef: 32.5, presenceRef: 54.3, formationRef: 25.8, immersionRef: 17.1, evtRef: 33.9,
+    formTaeRef: 59.6, formPresRef: 53.8
   },
   hist: {
     inscrits:  [143210,145080,146900,148350,149700,150813,153116,155957,156402,157340,157890,158292],
@@ -541,9 +601,11 @@ function renderA1(prefix, current, a1, isCount){
   const sign = delta>=0 ? '+' : '';
   const deltaTxt = isCount ? sign+fmtNum(delta) : sign+delta.toFixed(1)+' pt';
   const valTxt = isCount ? fmtNum(a1) : a1.toFixed(1);
-  document.getElementById(prefix+'-val').firstChild ? document.getElementById(prefix+'-val').firstChild.textContent = valTxt : document.getElementById(prefix+'-val').textContent = valTxt;
+  const valEl = document.getElementById(prefix+'-val');
+  valEl.firstChild ? valEl.firstChild.textContent = valTxt : valEl.textContent = valTxt;
   const d = document.getElementById(prefix+'-delta');
-  d.textContent = deltaTxt;
+  const period = d.dataset.a1period;
+  d.textContent = `${deltaTxt} (vs ${period})`;
   d.className = 'a1-delta ' + (delta>=0?'up':'down');
 }
 
@@ -597,26 +659,34 @@ function renderAll(){
 
   document.getElementById('kpi-tae').firstChild.textContent = tae.toFixed(1);
   document.getElementById('kpi-tae-ref').textContent = BASE.taeRef.toFixed(1);
+  document.getElementById('kpi-tae-a1-ref').textContent = BASE.a1.taeRef.toFixed(1);
   renderA1('kpi-tae-a1', tae, BASE.a1.tae, false);
   document.getElementById('kpi-presence').firstChild.textContent = presence.toFixed(1);
   document.getElementById('kpi-presence-ref').textContent = BASE.presenceRef.toFixed(1);
+  document.getElementById('kpi-presence-a1-ref').textContent = BASE.a1.presenceRef.toFixed(1);
   renderA1('kpi-presence-a1', presence, BASE.a1.presence, false);
   document.getElementById('kpi-formation').firstChild.textContent = formation.toFixed(1);
   document.getElementById('kpi-formation-ref').textContent = BASE.formationRef.toFixed(1);
+  document.getElementById('kpi-formation-a1-ref').textContent = BASE.a1.formationRef.toFixed(1);
   renderA1('kpi-formation-a1', formation, BASE.a1.formation, false);
   document.getElementById('kpi-immersion').firstChild.textContent = immersion.toFixed(1);
   document.getElementById('kpi-immersion-ref').textContent = BASE.immersionRef.toFixed(1);
+  document.getElementById('kpi-immersion-a1-ref').textContent = BASE.a1.immersionRef.toFixed(1);
   renderA1('kpi-immersion-a1', immersion, BASE.a1.immersion, false);
   document.getElementById('kpi-evt').firstChild.textContent = evt.toFixed(1);
   document.getElementById('kpi-evt-ref').textContent = BASE.evtRef.toFixed(1);
+  document.getElementById('kpi-evt-a1-ref').textContent = BASE.a1.evtRef.toFixed(1);
   renderA1('kpi-evt-a1', evt, BASE.a1.evt, false);
   document.getElementById('kpi-formtae').firstChild.textContent = formTae.toFixed(1);
   document.getElementById('kpi-formtae-ref').textContent = BASE.formTaeRef.toFixed(1);
+  document.getElementById('kpi-formtae-a1-ref').textContent = BASE.a1.formTaeRef.toFixed(1);
   renderA1('kpi-formtae-a1', formTae, BASE.a1.formTae, false);
   document.getElementById('kpi-formpres').firstChild.textContent = formPres.toFixed(1);
   document.getElementById('kpi-formpres-ref').textContent = BASE.formPresRef.toFixed(1);
+  document.getElementById('kpi-formpres-a1-ref').textContent = BASE.a1.formPresRef.toFixed(1);
   renderA1('kpi-formpres-a1', formPres, BASE.a1.formPres, false);
   renderCombo();
+  renderFranceMap();
   renderFormationChart();
 
   document.getElementById('form-total').textContent = Math.round(BASE.formTotal*nMult).toLocaleString('fr-FR');
@@ -660,8 +730,76 @@ function resetFilters(){
 function filterFormationTable(){
   const onlyDirect = document.getElementById('f-formation-directe').checked;
   document.querySelectorAll('tr[data-direct]').forEach(tr=>{
-    tr.style.display = (!onlyDirect || tr.dataset.direct==='oui') ? '' : 'none';
+    const excluded = onlyDirect && tr.dataset.direct==='non';
+    tr.style.opacity = excluded ? '.4' : '1';
   });
+}
+
+// Carte de France stylisée (cartogramme en grille) : 13 régions métropolitaines, subdivisées en départements
+const REGIONS = [
+  { code:'HDF', name:"Hauts-de-France", col:2, row:0, depts:['02','59','60','62','80'] },
+  { code:'BRE', name:'Bretagne', col:0, row:1, depts:['22','29','35','56'] },
+  { code:'NOR', name:'Normandie', col:1, row:1, depts:['14','27','50','61','76'] },
+  { code:'IDF', name:"Île-de-France", col:2, row:1, depts:['75','77','78','91','92','93','94','95'] },
+  { code:'GES', name:'Grand Est', col:3, row:1, depts:['08','10','51','52','54','55','57','67','68','88'] },
+  { code:'PDL', name:'Pays de la Loire', col:1, row:2, depts:['44','49','53','72','85'] },
+  { code:'CVL', name:'Centre-Val de Loire', col:2, row:2, depts:['18','28','36','37','41','45'] },
+  { code:'BFC', name:'Bourgogne-Franche-Comté', col:3, row:2, depts:['21','25','39','58','70','71','89','90'] },
+  { code:'NAQ', name:'Nouvelle-Aquitaine', col:1, row:3, depts:['16','17','19','23','24','33','40','47','64','79','86','87'] },
+  { code:'ARA', name:'Auvergne-Rhône-Alpes', col:3, row:3, depts:['01','03','07','15','26','38','42','43','63','69','73','74'] },
+  { code:'OCC', name:'Occitanie', col:2, row:4, depts:['09','11','12','30','31','32','34','46','48','65','66','81','82'] },
+  { code:'PAC', name:"Provence-Alpes-Côte d'Azur", col:3, row:4, depts:['04','05','06','13','83','84'] },
+  { code:'COR', name:'Corse', col:4, row:4, depts:['2A','2B'] }
+];
+const NATIONAL_WEIGHT = 15.1;
+function hashWeight(code){
+  let h = 0;
+  for(let i=0;i<code.length;i++) h = (h*31 + code.charCodeAt(i)) % 1000;
+  return NATIONAL_WEIGHT + ((h%140)/10 - 7); // ~ 8 % à 22 %
+}
+function colorForWeight(w){
+  const diff = Math.max(-7, Math.min(7, w - NATIONAL_WEIGHT));
+  const t = (diff + 7) / 14; // 0 = bleu (sous-représenté), 1 = orange (sur-représenté)
+  const c1 = [64,107,222], c2 = [224,168,0]; // bleu -> orange
+  const rgb = c1.map((v,i)=>Math.round(v + (c2[i]-v)*t));
+  return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+}
+let mapView = 'region';
+function toggleMapView(){
+  mapView = mapView === 'region' ? 'departement' : 'region';
+  document.getElementById('btn-map-view').textContent = mapView === 'region' ? 'Vue département' : 'Vue région';
+  document.getElementById('map-desc').textContent = mapView === 'region'
+    ? "Part des EPA (CIR < 5 ans) parmi les DEFM, par région · juin 2026"
+    : "Part des EPA (CIR < 5 ans) parmi les DEFM, par département · juin 2026";
+  renderFranceMap();
+}
+function renderFranceMap(){
+  const cw=88, ch=68, gap=5, pad=6;
+  const cols=5, rows=5;
+  const w = cols*(cw+gap), h = rows*(ch+gap);
+  let svg = '';
+  REGIONS.forEach(r=>{
+    const x = r.col*(cw+gap), y = r.row*(ch+gap);
+    if(mapView === 'region'){
+      const w_ = hashWeight(r.code);
+      svg += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="5" fill="${colorForWeight(w_)}"/>`;
+      svg += `<text x="${x+cw/2}" y="${y+ch/2-4}" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">${r.code}</text>`;
+      svg += `<text x="${x+cw/2}" y="${y+ch/2+12}" font-size="10" fill="#fff" text-anchor="middle">${w_.toFixed(1)} %</text>`;
+    } else {
+      const n = r.depts.length;
+      const dcols = Math.ceil(Math.sqrt(n));
+      const drows = Math.ceil(n/dcols);
+      const dw = (cw-pad)/dcols, dh = (ch-pad)/drows;
+      r.depts.forEach((code,i)=>{
+        const dx = x + pad/2 + (i%dcols)*dw, dy = y + pad/2 + Math.floor(i/dcols)*dh;
+        const w_ = hashWeight(code);
+        svg += `<rect x="${dx.toFixed(1)}" y="${dy.toFixed(1)}" width="${(dw-1.5).toFixed(1)}" height="${(dh-1.5).toFixed(1)}" rx="2" fill="${colorForWeight(w_)}"/>`;
+        if(dw>16) svg += `<text x="${(dx+dw/2).toFixed(1)}" y="${(dy+dh/2+3).toFixed(1)}" font-size="7" fill="#fff" text-anchor="middle">${code}</text>`;
+      });
+    }
+  });
+  document.getElementById('france-map').innerHTML = `<svg width="100%" viewBox="0 0 ${w} ${h}" style="max-width:${w}px;">${svg}</svg>`;
+  document.getElementById('map-legend').innerHTML = `<span><span class="sw" style="background:rgb(64,107,222);"></span>Sous-représentés</span><span><span class="sw" style="background:#E3E5F1;"></span>Moyenne nationale (15,1 %)</span><span><span class="sw" style="background:rgb(224,168,0);"></span>Sur-représentés</span>`;
 }
 
 function renderCombo(){
