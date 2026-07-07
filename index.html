@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Emploi des EPA — Réseau pour l'Emploi</title>
+<title>Emploi des EPA : Réseau pour l'Emploi</title>
 <style>
 @font-face{font-family:'Marianne';src:url('fonts/Marianne-Regular.woff2') format('woff2');font-weight:400;}
 @font-face{font-family:'Marianne';src:url('fonts/Marianne-Medium.woff2') format('woff2');font-weight:500;}
@@ -134,6 +134,14 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
 .spark{display:flex;align-items:center;gap:6px;margin-top:5px;}
 .spark svg{flex-shrink:0;}
 .spark .txt{font-size:10.5px;color:var(--fg3);}
+.periode{font-size:10px;color:var(--fg3);margin-top:3px;font-style:italic;}
+.info{cursor:help;color:var(--fg3);font-size:11px;font-style:normal;}
+.kpi-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.kpi-a1{text-align:right;}
+.kpi-a1 .a1-label{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.02em;font-weight:500;}
+.kpi-a1 .a1-delta{font-size:11px;font-weight:700;margin-top:2px;}
+.a1-delta.up{color:var(--success);}
+.a1-delta.down{color:var(--error);}
 
 @media(max-width:1000px){
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
@@ -145,28 +153,29 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
 
 <div class="topbar">
   <img src="assets/logo-france-travail.svg" alt="France Travail">
-  <div class="title">Réseau pour l'Emploi — Insertion professionnelle des EPA</div>
-  <span class="tag">Chiffres fictifs — maquette interactive</span>
+  <div class="title">Réseau pour l'Emploi : Insertion professionnelle des EPA</div>
+  <span class="tag">Chiffres fictifs / maquette interactive</span>
 </div>
 
 <div class="hero">
   <div class="eyebrow">Focus emploi · CTPE · instruction du 26 juin 2025</div>
   <h1>Insertion professionnelle des étrangers primo-arrivants (EPA)</h1>
-  <p>Filtrez par profil et niveau territorial pour éclairer les Comités Territoriaux Pour l'Emploi. Chaque indicateur EPA est comparé à la population globale de référence. Données 100 % fictives — structure prête pour branchement sur le tableau de bord RPE.</p>
+  <p>Filtrez par profil et niveau territorial pour éclairer les Comités Territoriaux Pour l'Emploi. Chaque indicateur EPA est comparé à la population globale de référence. Données 100 % fictives - structure prête pour branchement sur le tableau de bord RPE.</p>
 </div>
 
 <div class="filterbar">
   <div class="fgroup"><label>Niveau territorial</label>
     <select id="f-territoire" onchange="renderAll()">
       <option value="national">National</option>
-      <option value="regional">Régional — Île-de-France</option>
-      <option value="departemental">Départemental — Seine-Saint-Denis</option>
-      <option value="local">Local — bassin d'emploi</option>
+      <option value="regional">Régional : Île-de-France</option>
+      <option value="departemental">Départemental : Seine-Saint-Denis</option>
+      <option value="local">Local : bassin d'emploi</option>
     </select>
   </div>
   <div class="fgroup"><label>Tranche d'âge</label>
     <select id="f-age" onchange="renderAll()">
       <option value="tous">Tous âges</option>
+      <option value="16-18">16 à 18 ans</option>
       <option value="moins26">Moins de 26 ans</option>
       <option value="26-49">26 à 49 ans</option>
       <option value="50plus">50 ans et plus</option>
@@ -227,80 +236,121 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
 
 <div class="wrap">
 
-<div class="note"><span class="ico">💡</span><div><b>Note de lecture —</b> Les valeurs <b>EPA</b> sont comparées à la <b>population globale</b> de référence et à leur <b>tendance sur 6 mois</b> (mini-courbe : vert = amélioration, rouge = dégradation). Les filtres recalculent instantanément la page à partir d'un modèle de coefficients fictifs — à brancher sur les données réelles du tableau de bord RPE.</div></div>
+<div class="note"><span class="ico">💡</span><div><b>Note de lecture :</b> Les valeurs <b>EPA</b> sont comparées à la <b>population globale</b> de référence et à leur <b>tendance sur 12 mois</b> (mini-courbe : vert = amélioration, rouge = dégradation). Décalage de <b>6 mois</b> entre le nombre d'inscrits (Juin 2026) et le TAE/taux de présence (cumul jusqu'à Décembre 2025), le temps d'observer l'accès à l'emploi. Les filtres recalculent instantanément la page à partir d'un modèle de coefficients fictifs - à brancher sur les données réelles du tableau de bord RPE.</div></div>
 
 <!-- KPI -->
 <details class="sec" open>
   <summary class="section-head"><h2>Indicateurs clés</h2><span class="sub" id="filter-summary">Aucun filtre actif</span></summary>
   <div class="kpi-grid">
     <div class="kpi">
-      <div class="label">Inscrits EPA</div>
-      <div class="value" id="kpi-inscrits">—</div>
-      <div class="delta up" id="kpi-inscrits-delta">—</div>
+      <div class="label">Nombre d'inscrits EPA</div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-inscrits">-</div>
+        <div class="kpi-a1">
+          <div class="a1-label">Juin 2025</div>
+          <div class="value" id="kpi-inscrits-a1-val">-</div>
+          <div class="a1-delta" id="kpi-inscrits-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="periode">Juin 2026</div>
     </div>
     <div class="kpi">
-      <div class="label">Taux d'accès à l'emploi (6 mois)</div>
-      <div class="value" id="kpi-tae">—<small>%</small></div>
-      <div class="ref">Population globale : <b id="kpi-tae-ref">—</b> %</div>
-      <div class="spark" id="spark-tae"></div>
+      <div class="label">Taux d'accès à l'emploi (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits ayant accédé à l'emploi dans les 6 mois suivant leur inscription.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-tae">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Déc. 2024</div>
+          <div class="value" id="kpi-tae-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-tae-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-tae-ref">-</b> %</div>
+      <div class="periode">Cumul janv.-déc. 2025</div>
     </div>
     <div class="kpi">
-      <div class="label">Taux de présence en emploi (6 mois)</div>
-      <div class="value" id="kpi-presence">—<small>%</small></div>
-      <div class="ref">Population globale : <b id="kpi-presence-ref">—</b> %</div>
-      <div class="spark" id="spark-presence"></div>
+      <div class="label">Taux de présence en emploi (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits toujours en emploi 6 mois après leur inscription.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-presence">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Déc. 2024</div>
+          <div class="value" id="kpi-presence-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-presence-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-presence-ref">-</b> %</div>
+      <div class="periode">Cumul janv.-déc. 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux d'accès à la formation (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant bénéficié d'au moins une formation au cours des 6 derniers mois.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-formation">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Juin 2025</div>
+          <div class="value" id="kpi-formation-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-formation-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-formation-ref">-</b> %</div>
+      <div class="periode">Juin 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux d'accès à l'immersion (6 mois) <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant réalisé au moins une immersion au cours des 6 derniers mois.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-immersion">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Juin 2025</div>
+          <div class="value" id="kpi-immersion-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-immersion-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-immersion-ref">-</b> %</div>
+      <div class="periode">Juin 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux de mobilisation sur événements <span class="info" title="Proportion de demandeurs d'emploi inscrits en juin 2026 ayant participé à au moins un événement au cours des 6 derniers mois.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-evt">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Juin 2025</div>
+          <div class="value" id="kpi-evt-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-evt-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-evt-ref">-</b> %</div>
+      <div class="periode">Juin 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux d'accès à l'emploi 6 mois après formation <span class="info" title="Proportion de sortants de formation ayant accédé à l'emploi dans les 6 mois suivant la fin de leur formation.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-formtae">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Déc. 2024</div>
+          <div class="value" id="kpi-formtae-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-formtae-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-formtae-ref">-</b> %</div>
+      <div class="periode">Cumul janv.-déc. 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taux de présence en emploi 6 mois après formation <span class="info" title="Proportion de sortants de formation toujours en emploi 6 mois après la fin de leur formation.">ⓘ</span></div>
+      <div class="kpi-row">
+        <div class="value" id="kpi-formpres">-<small>%</small></div>
+        <div class="kpi-a1">
+          <div class="a1-label">Déc. 2024</div>
+          <div class="value" id="kpi-formpres-a1-val">-<small>%</small></div>
+          <div class="a1-delta" id="kpi-formpres-a1-delta">-</div>
+        </div>
+      </div>
+      <div class="ref">Population globale : <b id="kpi-formpres-ref">-</b> %</div>
+      <div class="periode">Cumul janv.-déc. 2025</div>
     </div>
   </div>
   <div class="card" style="margin-top:14px;">
-    <h3>Évolution 6 mois — inscrits, TAE, taux de présence</h3>
-    <div class="desc">Barres = inscrits EPA (éch. gauche) · Lignes = taux en % (éch. droite)</div>
+    <h3>Évolution 12 mois : Nombre d'inscrits, TAE/TPE à 6 mois</h3>
+    <div class="desc">Barres = Nombre d'inscrits EPA (éch. gauche) · Lignes = Accès/Présence en emploi (éch. droite)</div>
     <div id="combo-chart"></div>
-    <div class="legend"><span><span class="sw" style="background:var(--indigo-light);"></span>Inscrits EPA</span><span><span class="sw" style="background:var(--bleu);"></span>TAE 6 mois</span><span><span class="sw" style="background:#7E58A0;"></span>Taux de présence 6 mois</span></div>
-  </div>
-</details>
-
-<details class="sec" open>
-  <summary class="section-head"><h2>Immersion, mobilisation et entrées en formation</h2><span class="sub">Détail des 4 derniers indicateurs</span></summary>
-  <div class="row c4">
-    <div class="card">
-      <h3>Taux d'accès à l'immersion (6 mois)</h3>
-      <div class="gauge-wrap">
-        <svg width="76" height="76" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
-          <circle id="gauge-immersion" cx="50" cy="50" r="42" fill="none" stroke="#406BDE" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
-        </svg>
-        <div class="gauge-num"><span id="kpi-immersion">—</span> %<small>Réf. globale : <b id="kpi-immersion-ref">—</b> %</small><div class="spark" id="spark-immersion"></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Taux de mobilisation sur événements</h3>
-      <div class="gauge-wrap">
-        <svg width="76" height="76" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
-          <circle id="gauge-evt" cx="50" cy="50" r="42" fill="none" stroke="#7E58A0" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
-        </svg>
-        <div class="gauge-num"><span id="kpi-evt">—</span> %<small>Réf. globale : <b id="kpi-evt-ref">—</b> %</small><div class="spark" id="spark-evt"></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Taux d'accès à la formation (6 mois)</h3>
-      <div class="gauge-wrap">
-        <svg width="76" height="76" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="#E5E7EB" stroke-width="10"/>
-          <circle id="gauge-formation" cx="50" cy="50" r="42" fill="none" stroke="#293378" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)"/>
-        </svg>
-        <div class="gauge-num"><span id="kpi-formation">—</span> %<small>Réf. globale : <b id="kpi-formation-ref">—</b> %</small><div class="spark" id="spark-formation"></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Entrées en formation (période)</h3>
-      <div class="plist">
-        <div class="item"><div class="top"><span class="name">Total entrées</span><span class="val" id="form-total">—</span></div></div>
-        <div class="item"><div class="top"><span class="name">dont formations linguistiques</span><span class="val" id="form-ling">—</span></div></div>
-        <div class="item"><div class="top"><span class="name">dont VAE</span><span class="val" id="form-vae">—</span></div></div>
-        <div class="item"><div class="top"><span class="name">dont métiers en tension</span><span class="val" id="form-tension">—</span></div></div>
-      </div>
-    </div>
+    <div class="legend"><span><span class="sw" style="background:var(--indigo-light);"></span>Nombre d'inscrits EPA</span><span><span class="sw" style="background:var(--bleu);"></span>Taux d'accès à l'emploi (6 mois)</span><span><span class="sw" style="background:#7E58A0;"></span>Taux de présence en emploi (6 mois)</span></div>
   </div>
 </details>
 
@@ -337,6 +387,10 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
     <div class="hbar-row"><div class="lbl">Numérique</div><div class="track"><div class="fill" style="width:19%;"></div><div class="refmark" style="left:12%;"></div></div><div class="val">19 %</div></div>
     <div class="hbar-row"><div class="lbl">Santé</div><div class="track"><div class="fill" style="width:14%;"></div><div class="refmark" style="left:13%;"></div></div><div class="val">14 %</div></div>
     <div class="legend"><span><span class="sw" style="background:var(--indigo);"></span>EPA</span><span><span class="sw" style="background:var(--rouge);"></span>Repère population globale</span></div>
+    <div class="note" style="margin-top:14px;"><span class="ico">🇫🇷</span><div>
+      <b>Score de niveau de FLE moyen à l'inscription :</b> 3,4 / 5 (source OFII, évaluation initiale au moment de l'inscription).<br>
+      <span style="font-size:11px;color:var(--fg3);">1 = A1 non acquis · 2 = A1 partiellement acquis · 3 = A1 acquis · 4 = A2 acquis · 5 = B1 et supérieur acquis</span>
+    </div></div>
   </div>
 </details>
 
@@ -363,27 +417,62 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
 
 <!-- FORMATIONS -->
 <details class="sec" open>
-  <summary class="section-head"><h2>Formations — accès à l'emploi par type</h2><span class="sub">Taux d'accès et de présence en emploi à 6 mois après sortie de formation</span></summary>
+  <summary class="section-head"><h2>Formations</h2><span class="sub">Entrées, évolution et devenir des sortants</span></summary>
+
   <div class="card">
-    <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--fg2);margin-bottom:12px;cursor:pointer;">
-      <input type="checkbox" id="f-formation-directe" onchange="filterFormationTable()"> Afficher uniquement les formations à visée emploi direct (AIF, POEI, AFC)
-    </label>
+    <h3>Entrées en formation : cumul juil. 2025 → juin 2026</h3>
     <table>
-      <thead><tr><th rowspan="2" style="vertical-align:bottom;">Type de formation</th><th rowspan="2" style="text-align:right;vertical-align:bottom;">Entrées EPA</th><th colspan="2" style="text-align:center;">TAE 6 mois</th><th colspan="2" style="text-align:center;">Taux de présence 6 mois</th></tr>
-      <tr><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th></tr></thead>
+      <thead><tr><th></th><th style="text-align:right;">Juil.2025-Juin2026</th><th style="text-align:right;">Juil.2024-Juin2025</th></tr></thead>
       <tbody>
-        <tr data-direct="oui"><td>AIF (Aide individuelle à la formation)</td><td style="text-align:right;">1 840</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">60 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">52 %</td></tr>
-        <tr data-direct="non"><td>CPF (Compte personnel de formation)</td><td style="text-align:right;">960</td><td style="text-align:right;">52 %</td><td style="text-align:right;color:var(--fg3);">58 %</td><td style="text-align:right;">44 %</td><td style="text-align:right;color:var(--fg3);">50 %</td></tr>
-        <tr data-direct="non"><td>Conseil régional</td><td style="text-align:right;">2 210</td><td style="text-align:right;">55 %</td><td style="text-align:right;color:var(--fg3);">59 %</td><td style="text-align:right;">47 %</td><td style="text-align:right;color:var(--fg3);">51 %</td></tr>
-        <tr data-direct="oui"><td>POEI (Préparation opérationnelle à l'emploi)</td><td style="text-align:right;">740</td><td style="text-align:right;"><span class="pill ok">71 %</span></td><td style="text-align:right;color:var(--fg3);">75 %</td><td style="text-align:right;">64 %</td><td style="text-align:right;color:var(--fg3);">68 %</td></tr>
-        <tr data-direct="oui"><td>AFC (Action de formation conventionnée)</td><td style="text-align:right;">1 120</td><td style="text-align:right;">53 %</td><td style="text-align:right;color:var(--fg3);">57 %</td><td style="text-align:right;">45 %</td><td style="text-align:right;color:var(--fg3);">49 %</td></tr>
-        <tr style="background:var(--g50);font-weight:700;"><td>Ensemble EPA</td><td style="text-align:right;">6 870</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">61 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">55 %</td></tr>
+        <tr><td>Total entrées</td><td style="text-align:right;" id="form-total">-</td><td style="text-align:right;color:var(--fg3);" id="form-total-a1">-</td></tr>
+        <tr><td>dont linguistiques</td><td style="text-align:right;" id="form-ling">-</td><td style="text-align:right;color:var(--fg3);" id="form-ling-a1">-</td></tr>
+        <tr><td>dont VAE</td><td style="text-align:right;" id="form-vae">-</td><td style="text-align:right;color:var(--fg3);" id="form-vae-a1">-</td></tr>
+        <tr><td>dont métiers en tension</td><td style="text-align:right;" id="form-tension">-</td><td style="text-align:right;color:var(--fg3);" id="form-tension-a1">-</td></tr>
       </tbody>
     </table>
-    <div class="legend"><span><span class="sw" style="background:var(--success-bg);"></span>POEI : meilleur convertisseur vers l'emploi (formation en situation réelle sur métier en tension)</span></div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h3>Entrées en formation : évolution 12 mois</h3>
+    <div class="desc">Entrées mensuelles Juil. 2025 → Juin 2026</div>
+    <div id="formation-chart"></div>
+    <div class="legend"><span><span class="sw" style="background:var(--indigo);"></span>Entrées totales (éch. gauche)</span><span><span class="sw" style="background:var(--jaune-dark);"></span>Poids EPA dans les entrées (éch. droite, %)</span><span><span class="sw" style="background:#7E58A0;"></span>dont linguistiques (éch. gauche)</span></div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+      <h3>Sortants de formation : accès à l'emploi par type</h3>
+      <span class="periode" id="sortants-periode" style="margin:0;">Cumul janv.-déc. 2025</span>
+      <button class="btn-print" style="margin-left:auto;padding:5px 12px;font-size:11px;" onclick="toggleSortantsYear()" id="btn-sortants-year">Voir janv.-déc. 2024</button>
+    </div>
+    <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--fg2);margin:10px 0;cursor:pointer;">
+      <input type="checkbox" id="f-formation-directe" onchange="filterFormationTable()"> Afficher uniquement les formations à visée emploi direct
+      <span class="info" title="Formations préparant immédiatement et directement à l'exercice d'un métier. Sont exclues : bilans de compétences, prestations d'orientation ou d'aide à l'élaboration de projet, formations de mise à niveau et socle de compétences.">ⓘ</span>
+    </label>
+    <table>
+      <thead><tr><th rowspan="2" style="vertical-align:bottom;">Type de formation</th><th rowspan="2" style="text-align:right;vertical-align:bottom;">Sortants EPA</th><th rowspan="2" style="text-align:right;vertical-align:bottom;">Poids EPA*</th><th colspan="2" style="text-align:center;">TAE 6 mois</th><th colspan="2" style="text-align:center;">Taux de présence 6 mois</th></tr>
+      <tr><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th><th style="text-align:right;">EPA</th><th style="text-align:right;">Pop. globale</th></tr></thead>
+      <tbody id="sortants-2025">
+        <tr data-direct="oui"><td>AIF (Aide individuelle à la formation)</td><td style="text-align:right;">1 840</td><td style="text-align:right;">17,0 %</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">60 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">52 %</td></tr>
+        <tr data-direct="non"><td>CPF (Compte personnel de formation)</td><td style="text-align:right;">960</td><td style="text-align:right;">15,5 %</td><td style="text-align:right;">52 %</td><td style="text-align:right;color:var(--fg3);">58 %</td><td style="text-align:right;">44 %</td><td style="text-align:right;color:var(--fg3);">50 %</td></tr>
+        <tr data-direct="non"><td>Conseil régional</td><td style="text-align:right;">2 210</td><td style="text-align:right;">17,7 %</td><td style="text-align:right;">55 %</td><td style="text-align:right;color:var(--fg3);">59 %</td><td style="text-align:right;">47 %</td><td style="text-align:right;color:var(--fg3);">51 %</td></tr>
+        <tr data-direct="oui"><td>POEI (Préparation opérationnelle à l'emploi)</td><td style="text-align:right;">740</td><td style="text-align:right;">21,8 %</td><td style="text-align:right;"><span class="pill ok">71 %</span></td><td style="text-align:right;color:var(--fg3);">75 %</td><td style="text-align:right;">64 %</td><td style="text-align:right;color:var(--fg3);">68 %</td></tr>
+        <tr data-direct="oui"><td>AFC (Action de formation conventionnée)</td><td style="text-align:right;">1 120</td><td style="text-align:right;">17,0 %</td><td style="text-align:right;">53 %</td><td style="text-align:right;color:var(--fg3);">57 %</td><td style="text-align:right;">45 %</td><td style="text-align:right;color:var(--fg3);">49 %</td></tr>
+        <tr style="background:var(--g50);font-weight:700;"><td>Ensemble EPA</td><td style="text-align:right;">6 870</td><td style="text-align:right;">16,8 %</td><td style="text-align:right;">57 %</td><td style="text-align:right;color:var(--fg3);">61 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">55 %</td></tr>
+      </tbody>
+      <tbody id="sortants-2024" style="display:none;">
+        <tr data-direct="oui"><td>AIF (Aide individuelle à la formation)</td><td style="text-align:right;">1 720</td><td style="text-align:right;">16,0 %</td><td style="text-align:right;">54 %</td><td style="text-align:right;color:var(--fg3);">58 %</td><td style="text-align:right;">46 %</td><td style="text-align:right;color:var(--fg3);">50 %</td></tr>
+        <tr data-direct="non"><td>CPF (Compte personnel de formation)</td><td style="text-align:right;">890</td><td style="text-align:right;">14,6 %</td><td style="text-align:right;">48 %</td><td style="text-align:right;color:var(--fg3);">55 %</td><td style="text-align:right;">40 %</td><td style="text-align:right;color:var(--fg3);">47 %</td></tr>
+        <tr data-direct="non"><td>Conseil régional</td><td style="text-align:right;">2 050</td><td style="text-align:right;">16,8 %</td><td style="text-align:right;">51 %</td><td style="text-align:right;color:var(--fg3);">56 %</td><td style="text-align:right;">43 %</td><td style="text-align:right;color:var(--fg3);">48 %</td></tr>
+        <tr data-direct="oui"><td>POEI (Préparation opérationnelle à l'emploi)</td><td style="text-align:right;">610</td><td style="text-align:right;">20,9 %</td><td style="text-align:right;"><span class="pill ok">67 %</span></td><td style="text-align:right;color:var(--fg3);">72 %</td><td style="text-align:right;">60 %</td><td style="text-align:right;color:var(--fg3);">64 %</td></tr>
+        <tr data-direct="oui"><td>AFC (Action de formation conventionnée)</td><td style="text-align:right;">1 010</td><td style="text-align:right;">16,1 %</td><td style="text-align:right;">49 %</td><td style="text-align:right;color:var(--fg3);">54 %</td><td style="text-align:right;">41 %</td><td style="text-align:right;color:var(--fg3);">46 %</td></tr>
+        <tr style="background:var(--g50);font-weight:700;"><td>Ensemble EPA</td><td style="text-align:right;">6 280</td><td style="text-align:right;">15,9 %</td><td style="text-align:right;">53 %</td><td style="text-align:right;color:var(--fg3);">58 %</td><td style="text-align:right;">45 %</td><td style="text-align:right;color:var(--fg3);">51 %</td></tr>
+      </tbody>
+    </table>
+    <div class="legend"><span><span class="sw" style="background:var(--success-bg);"></span>POEI : meilleur convertisseur vers l'emploi (formation en situation réelle sur métier en tension)</span><span>* Poids EPA = sortants EPA / sortants tous publics, par type</span></div>
     <div class="note" style="margin:14px 0 0;"><span class="ico">📐</span><div>
       <b>Poids des EPA dans les entrées en formation :</b> 16,8 % (6 870 / 41 000 entrées tous publics)<br>
-      <b>Poids des EPA dans les inscrits</b> : 15,1 % — <b style="color:var(--success);">écart +1,7 pt : EPA sur-représentés</b> dans les entrées en formation par rapport à leur poids démographique.
+      <b>Poids des EPA dans les inscrits</b> : 15,1 % - <b style="color:var(--success);">écart +1,7 pt : EPA sur-représentés</b> dans les entrées en formation par rapport à leur poids démographique.
     </div></div>
   </div>
 </details>
@@ -394,36 +483,46 @@ footer{padding:20px 32px 40px;color:var(--fg3);font-size:11px;text-align:center;
   <div class="card">
     <h3>Compteur par niveau territorial</h3>
     <table>
-      <tr><td>National</td><td style="text-align:right;font-weight:700;">4</td></tr>
-      <tr><td>Régional</td><td style="text-align:right;font-weight:700;">28</td></tr>
-      <tr><td>Départemental</td><td style="text-align:right;font-weight:700;">76</td></tr>
-      <tr><td>Local</td><td style="text-align:right;font-weight:700;">56</td></tr>
+      <thead><tr><th>Niveau territorial</th><th style="text-align:right;">2025</th><th style="text-align:right;">2026</th></tr></thead>
+      <tr><td>National</td><td style="text-align:right;">3</td><td style="text-align:right;font-weight:700;">4</td></tr>
+      <tr><td>Régional</td><td style="text-align:right;">22</td><td style="text-align:right;font-weight:700;">28</td></tr>
+      <tr><td>Départemental</td><td style="text-align:right;">64</td><td style="text-align:right;font-weight:700;">76</td></tr>
+      <tr><td>Local</td><td style="text-align:right;">41</td><td style="text-align:right;font-weight:700;">56</td></tr>
     </table>
   </div>
 </details>
 
 </div>
 
-<footer>Données fictives — structure de suivi prête pour branchement sur le tableau de bord RPE, SI OFII et remontées CTPE. Direction de la Performance — France Travail.</footer>
+<footer>Données fictives - structure de suivi prête pour branchement sur le tableau de bord RPE, SI OFII et remontées CTPE. Direction de la Performance / France Travail.</footer>
 
 <script>
-// Modèle de coefficients fictifs — à remplacer par un appel aux données réelles
+// Modèle de coefficients fictifs - à remplacer par un appel aux données réelles
 const BASE = {
   inscrits: 158292, tae: 36.7, taeRef: 33.2, presence: 49.0, presenceRef: 55.0,
   formation: 22.0, formationRef: 27.0, immersion: 14.0, immersionRef: 18.0,
   evt: 31.0, evtRef: 35.0, formTotal: 6870, formLing: 2140, formVae: 340, formTension: 3980,
+  formTae: 57.0, formTaeRef: 61.0, formPres: 49.0, formPresRef: 55.0,
+  a1: {
+    inscrits: 150813, tae: 35.9, presence: 48.1, formation: 20.6, immersion: 12.8, evt: 29.4,
+    formTae: 54.2, formPres: 46.5,
+    formTotal: 6240, formLing: 1950, formVae: 305, formTension: 3610
+  },
   hist: {
-    inscrits:  [150813,153116,155957,156402,157340,158292],
-    tae:       [38.4,38.0,37.6,37.2,36.9,36.7],
-    presence:  [50.8,50.3,49.9,49.5,49.2,49.0],
-    formation: [20.1,20.6,21.0,21.4,21.8,22.0],
-    immersion: [12.4,12.8,13.1,13.5,13.8,14.0],
-    evt:       [28.9,29.4,29.8,30.2,30.6,31.0]
+    inscrits:  [143210,145080,146900,148350,149700,150813,153116,155957,156402,157340,157890,158292],
+    tae:       [39.8,39.5,39.1,38.9,38.6,38.4,38.0,37.6,37.2,36.9,36.8,36.7],
+    presence:  [52.6,52.1,51.7,51.3,51.0,50.8,50.3,49.9,49.5,49.2,49.1,49.0],
+    formation: [18.4,18.9,19.3,19.6,19.9,20.1,20.6,21.0,21.4,21.8,21.9,22.0],
+    immersion: [10.8,11.2,11.6,11.9,12.1,12.4,12.8,13.1,13.5,13.8,13.9,14.0],
+    evt:       [27.0,27.4,27.8,28.2,28.5,28.9,29.4,29.8,30.2,30.6,30.8,31.0],
+    formEntrees: [520,548,565,580,595,610,600,585,595,605,585,592],
+    formLingEntrees: [148,155,160,165,170,176,178,172,168,172,168,168],
+    formPoidsEpa: [15.2,15.6,15.9,16.1,16.3,16.5,16.6,16.4,16.5,16.7,16.9,16.8]
   }
 };
 const COEF = {
   territoire: { national:{n:1,tae:0,pres:0}, regional:{n:.29,tae:2.8,pres:1.5}, departemental:{n:.07,tae:-2.2,pres:-1.8}, local:{n:.015,tae:1.1,pres:.6} },
-  age:        { tous:{n:1,tae:0,pres:0}, moins26:{n:.24,tae:-3.5,pres:-2.9}, "26-49":{n:.58,tae:2.1,pres:1.7}, "50plus":{n:.18,tae:-5.8,pres:-4.6} },
+  age:        { tous:{n:1,tae:0,pres:0}, "16-18":{n:.03,tae:-9.8,pres:-8.1}, moins26:{n:.24,tae:-3.5,pres:-2.9}, "26-49":{n:.58,tae:2.1,pres:1.7}, "50plus":{n:.18,tae:-5.8,pres:-4.6} },
   referent:   { tous:{n:1,tae:0,pres:0}, ft:{n:.71,tae:1.4,pres:1.0}, ml:{n:.14,tae:-4.2,pres:-3.5}, cap:{n:.03,tae:-6.1,pres:-5.2}, cd:{n:.12,tae:-2.8,pres:-2.3} },
   qpv:        { tous:{n:1,tae:0,pres:0}, oui:{n:.24,tae:-3.9,pres:-3.2}, non:{n:.76,tae:1.2,pres:1.0} },
   zfrr:       { tous:{n:1,tae:0,pres:0}, oui:{n:.09,tae:-1.8,pres:-1.4}, non:{n:.91,tae:.2,pres:.1} },
@@ -435,21 +534,17 @@ let currentSexe = 'ensemble';
 
 function clamp(v){ return Math.max(0, Math.min(100, v)); }
 
-// Sparkline 6 mois : trace la série historique + delta sur la période
-function sparkline(elId, serie){
-  const w=64,h=20,pad=2;
-  const min=Math.min(...serie), max=Math.max(...serie);
-  const range = (max-min)||1;
-  const pts = serie.map((v,i)=>{
-    const x = pad + i*(w-2*pad)/(serie.length-1);
-    const y = h-pad - (v-min)/range*(h-2*pad);
-    return x.toFixed(1)+','+y.toFixed(1);
-  }).join(' ');
-  const delta = (serie[serie.length-1]-serie[0]);
-  const color = delta>=0 ? '#1B7F3B' : '#D92424';
-  const svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  const txt = `<span class="txt">${delta>=0?'+':''}${delta.toFixed(1)} pt / 6 mois</span>`;
-  document.getElementById(elId).innerHTML = svg + txt;
+function fmtNum(n){ return Math.round(n).toLocaleString('fr-FR'); }
+
+function renderA1(prefix, current, a1, isCount){
+  const delta = current - a1;
+  const sign = delta>=0 ? '+' : '';
+  const deltaTxt = isCount ? sign+fmtNum(delta) : sign+delta.toFixed(1)+' pt';
+  const valTxt = isCount ? fmtNum(a1) : a1.toFixed(1);
+  document.getElementById(prefix+'-val').firstChild ? document.getElementById(prefix+'-val').firstChild.textContent = valTxt : document.getElementById(prefix+'-val').textContent = valTxt;
+  const d = document.getElementById(prefix+'-delta');
+  d.textContent = deltaTxt;
+  d.className = 'a1-delta ' + (delta>=0?'up':'down');
 }
 
 function activeCoefs(){
@@ -494,42 +589,52 @@ function renderAll(){
   const formation = clamp(BASE.formation + presSum*0.5);
   const immersion = clamp(BASE.immersion + presSum*0.4);
   const evt = clamp(BASE.evt + presSum*0.3);
+  const formTae = clamp(BASE.formTae + taeSum);
+  const formPres = clamp(BASE.formPres + presSum);
 
   document.getElementById('kpi-inscrits').textContent = inscrits.toLocaleString('fr-FR');
-  document.getElementById('kpi-inscrits-delta').textContent = (nMult<1? 'Filtré à '+(nMult*100).toFixed(0)+'% de la base nationale' : 'Base nationale complète');
-  document.getElementById('kpi-inscrits-delta').className = 'delta ' + (nMult<1?'down':'up');
+  renderA1('kpi-inscrits-a1', inscrits, BASE.a1.inscrits, true);
 
   document.getElementById('kpi-tae').firstChild.textContent = tae.toFixed(1);
   document.getElementById('kpi-tae-ref').textContent = BASE.taeRef.toFixed(1);
+  renderA1('kpi-tae-a1', tae, BASE.a1.tae, false);
   document.getElementById('kpi-presence').firstChild.textContent = presence.toFixed(1);
   document.getElementById('kpi-presence-ref').textContent = BASE.presenceRef.toFixed(1);
-  document.getElementById('kpi-formation').textContent = formation.toFixed(1);
+  renderA1('kpi-presence-a1', presence, BASE.a1.presence, false);
+  document.getElementById('kpi-formation').firstChild.textContent = formation.toFixed(1);
   document.getElementById('kpi-formation-ref').textContent = BASE.formationRef.toFixed(1);
-  document.getElementById('kpi-immersion').textContent = immersion.toFixed(1);
+  renderA1('kpi-formation-a1', formation, BASE.a1.formation, false);
+  document.getElementById('kpi-immersion').firstChild.textContent = immersion.toFixed(1);
   document.getElementById('kpi-immersion-ref').textContent = BASE.immersionRef.toFixed(1);
-  document.getElementById('kpi-evt').textContent = evt.toFixed(1);
+  renderA1('kpi-immersion-a1', immersion, BASE.a1.immersion, false);
+  document.getElementById('kpi-evt').firstChild.textContent = evt.toFixed(1);
   document.getElementById('kpi-evt-ref').textContent = BASE.evtRef.toFixed(1);
-  setGauge('gauge-immersion', immersion);
-  setGauge('gauge-formation', formation);
+  renderA1('kpi-evt-a1', evt, BASE.a1.evt, false);
+  document.getElementById('kpi-formtae').firstChild.textContent = formTae.toFixed(1);
+  document.getElementById('kpi-formtae-ref').textContent = BASE.formTaeRef.toFixed(1);
+  renderA1('kpi-formtae-a1', formTae, BASE.a1.formTae, false);
+  document.getElementById('kpi-formpres').firstChild.textContent = formPres.toFixed(1);
+  document.getElementById('kpi-formpres-ref').textContent = BASE.formPresRef.toFixed(1);
+  renderA1('kpi-formpres-a1', formPres, BASE.a1.formPres, false);
   renderCombo();
-  setGauge('gauge-evt', evt);
-  sparkline('spark-tae', BASE.hist.tae);
-  sparkline('spark-presence', BASE.hist.presence);
-  sparkline('spark-formation', BASE.hist.formation);
-  sparkline('spark-immersion', BASE.hist.immersion);
-  sparkline('spark-evt', BASE.hist.evt);
+  renderFormationChart();
 
   document.getElementById('form-total').textContent = Math.round(BASE.formTotal*nMult).toLocaleString('fr-FR');
   document.getElementById('form-ling').textContent = Math.round(BASE.formLing*nMult).toLocaleString('fr-FR');
   document.getElementById('form-vae').textContent = Math.round(BASE.formVae*nMult).toLocaleString('fr-FR');
   document.getElementById('form-tension').textContent = Math.round(BASE.formTension*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-total-a1').textContent = Math.round(BASE.a1.formTotal*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-ling-a1').textContent = Math.round(BASE.a1.formLing*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-vae-a1').textContent = Math.round(BASE.a1.formVae*nMult).toLocaleString('fr-FR');
+  document.getElementById('form-tension-a1').textContent = Math.round(BASE.a1.formTension*nMult).toLocaleString('fr-FR');
 
   const labels = activeFilterLabels();
-  document.getElementById('filter-summary').textContent = labels.length ? labels.join(' · ') : 'Aucun filtre actif — vue nationale, ensemble';
+  document.getElementById('filter-summary').textContent = labels.length ? labels.join(' · ') : 'Aucun filtre actif : vue nationale, ensemble';
 
   // caractéristiques (statique, illustratif)
   document.getElementById('carac-block').innerHTML = `
     <div class="item"><div class="top"><span class="name">Femmes</span><span class="val">48,9 %</span></div><div class="track"><div class="fill" style="width:48.9%;background:var(--bleu);"></div></div></div>
+    <div class="item"><div class="top"><span class="name">16 à 18 ans</span><span class="val">3 %</span></div><div class="track"><div class="fill" style="width:3%;background:var(--indigo);"></div></div></div>
     <div class="item"><div class="top"><span class="name">Moins de 26 ans</span><span class="val">24 %</span></div><div class="track"><div class="fill" style="width:24%;background:var(--indigo);"></div></div></div>
     <div class="item"><div class="top"><span class="name">26-49 ans</span><span class="val">58 %</span></div><div class="track"><div class="fill" style="width:58%;background:var(--indigo);"></div></div></div>
     <div class="item"><div class="top"><span class="name">50 ans et plus</span><span class="val">18 %</span></div><div class="track"><div class="fill" style="width:18%;background:var(--indigo);"></div></div></div>
@@ -561,8 +666,8 @@ function filterFormationTable(){
 
 function renderCombo(){
   const inscrits = BASE.hist.inscrits, tae = BASE.hist.tae, pres = BASE.hist.presence;
-  const mois = ['Janv.','Févr.','Mars','Avril','Mai','Juin'];
-  const w=560,h=170,padL=38,padR=30,padB=22,padT=8;
+  const mois = ['Juil.','Août','Sept.','Oct.','Nov.','Déc.','Janv.','Févr.','Mars','Avril','Mai','Juin'];
+  const w=680,h=170,padL=38,padR=30,padB=22,padT=8;
   const plotW=w-padL-padR, plotH=h-padT-padB;
   const nMax = Math.max(...inscrits), nMin = Math.min(...inscrits);
   const tMax = 60, tMin = 20; // échelle taux fixe pour lecture stable
@@ -572,10 +677,12 @@ function renderCombo(){
     const x = padL + (i+0.5)*plotW/inscrits.length;
     const bh = (v-nMin)/((nMax-nMin)||1)*(plotH*0.85);
     bars += `<rect x="${(x-bw/2).toFixed(1)}" y="${(padT+plotH-bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="#E3E5F1" rx="2"/>`;
-    const yTae = padT+plotH - (tae[i]-tMin)/(tMax-tMin)*plotH;
-    const yPres = padT+plotH - (pres[i]-tMin)/(tMax-tMin)*plotH;
-    lineTae.push(x.toFixed(1)+','+yTae.toFixed(1));
-    linePres.push(x.toFixed(1)+','+yPres.toFixed(1));
+    if(i<6){
+      const yTae = padT+plotH - (tae[i+6]-tMin)/(tMax-tMin)*plotH;
+      const yPres = padT+plotH - (pres[i+6]-tMin)/(tMax-tMin)*plotH;
+      lineTae.push(x.toFixed(1)+','+yTae.toFixed(1));
+      linePres.push(x.toFixed(1)+','+yPres.toFixed(1));
+    }
   });
   const labels = mois.map((m,i)=>{
     const x = padL + (i+0.5)*plotW/inscrits.length;
@@ -585,9 +692,45 @@ function renderCombo(){
     ${bars}
     <polyline points="${lineTae.join(' ')}" fill="none" stroke="#406BDE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <polyline points="${linePres.join(' ')}" fill="none" stroke="#7E58A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${lineTae[5].split(',')[0]}" cy="${lineTae[5].split(',')[1]}" r="3" fill="#406BDE"/>
+    <circle cx="${linePres[5].split(',')[0]}" cy="${linePres[5].split(',')[1]}" r="3" fill="#7E58A0"/>
     ${labels}
   </svg>`;
   document.getElementById('combo-chart').innerHTML = svg;
+}
+
+function renderFormationChart(){
+  const serie = BASE.hist.formEntrees, poids = BASE.hist.formPoidsEpa, ling = BASE.hist.formLingEntrees;
+  const mois = ['Juil.','Août','Sept.','Oct.','Nov.','Déc.','Janv.','Févr.','Mars','Avril','Mai','Juin'];
+  const w=680,h=140,padL=30,padR=34,padB=20,padT=8;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const max=Math.max(...serie);
+  const pMin=14, pMax=18; // échelle % fixe pour lecture stable
+  const bw = plotW/serie.length*0.55;
+  let bars='', labels='', linePts=[], lingPts=[];
+  serie.forEach((v,i)=>{
+    const x = padL + (i+0.5)*plotW/serie.length;
+    const bh = v/max*plotH*0.9;
+    bars += `<rect x="${(x-bw/2).toFixed(1)}" y="${(padT+plotH-bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="#293378" rx="2"/>`;
+    labels += `<text x="${x.toFixed(1)}" y="${h-4}" font-size="9" fill="#6B7280" text-anchor="middle">${mois[i]}</text>`;
+    const y = padT+plotH - (poids[i]-pMin)/(pMax-pMin)*plotH;
+    linePts.push(x.toFixed(1)+','+y.toFixed(1));
+    const yLing = padT+plotH - ling[i]/max*plotH*0.9;
+    lingPts.push(x.toFixed(1)+','+yLing.toFixed(1));
+  });
+  document.getElementById('formation-chart').innerHTML = `<svg width="100%" viewBox="0 0 ${w} ${h}" style="max-width:${w}px;">${bars}<polyline points="${linePts.join(' ')}" fill="none" stroke="#E0A800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${lingPts.join(' ')}" fill="none" stroke="#7E58A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${labels}</svg>`;
+}
+
+function toggleSortantsYear(){
+  const y25 = document.getElementById('sortants-2025');
+  const y24 = document.getElementById('sortants-2024');
+  const btn = document.getElementById('btn-sortants-year');
+  const periode = document.getElementById('sortants-periode');
+  const show2024 = y25.style.display !== 'none';
+  y25.style.display = show2024 ? 'none' : '';
+  y24.style.display = show2024 ? '' : 'none';
+  btn.textContent = show2024 ? 'Voir janv.-déc. 2025' : 'Voir janv.-déc. 2024';
+  periode.textContent = show2024 ? 'Cumul janv.-déc. 2024' : 'Cumul janv.-déc. 2025';
 }
 
 function toggleAll(open){
@@ -601,7 +744,7 @@ function exportPdf(){
   bar.id = 'print-header';
   bar.style.cssText = 'display:none;';
   bar.innerHTML = `<div style="padding:16px 0 8px;border-bottom:2px solid #0D1440;margin-bottom:16px;">
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#293378;font-weight:700;">Rapport — Insertion professionnelle des EPA</div>
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#293378;font-weight:700;">Rapport : Insertion professionnelle des EPA</div>
     <div style="font-size:10px;color:#6B7280;margin-top:4px;">Généré le ${new Date().toLocaleDateString('fr-FR')} · Filtres actifs : ${filters.length?filters.join(' · '):'aucun (vue nationale, ensemble)'}</div>
   </div>`;
   document.querySelector('.wrap').prepend(bar);
